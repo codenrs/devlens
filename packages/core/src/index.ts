@@ -1,5 +1,8 @@
 import { createDevLensId, type DevLensEvent, type DevLensEventType } from '@codenrs/devlens-shared';
 
+export * from './network';
+export * from './stores/networkStore';
+
 type DevLensListener<TPayload = unknown> = (event: DevLensEvent<TPayload>) => void;
 
 class DevLensCore {

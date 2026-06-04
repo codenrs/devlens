@@ -13,14 +13,15 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
-    }
+    },
+    "./styles/devlens.css": "./dist/styles/devlens.css"
   },
   "files": [
     "dist"
   ],
   "scripts": {
-    "dev": "tsup src/index.tsx --watch",
-    "build": "tsup src/index.tsx --format esm,cjs --dts --clean --external react",
+    "dev": "tsup src/index.tsx --watch --publicDir src",
+    "build": "tsup src/index.tsx --format esm,cjs --dts --clean --external react --publicDir src",
     "typecheck": "tsc --noEmit",
     "lint": "echo \"lint ui\"",
     "clean": "rimraf dist"
