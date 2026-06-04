@@ -1,0 +1,28 @@
+{
+  "name": "@codenrs/devlens-shared",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Shared types and utilities for DevLens.",
+  "license": "AGPL-3.0-only",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "tsup src/index.ts --watch",
+    "build": "tsup src/index.ts --format esm,cjs --dts --clean",
+    "typecheck": "tsc --noEmit",
+    "lint": "echo \"lint shared\"",
+    "clean": "rimraf dist"
+  }
+}
