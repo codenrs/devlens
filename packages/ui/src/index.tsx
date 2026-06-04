@@ -5,6 +5,14 @@ export type DevLensBarProps = {
   position?: 'bottom-left' | 'bottom-right';
 };
 
+type DevLensTabId = 'overview' | 'network' | 'console' | 'performance' | 'settings';
+
+type DevLensTab = {
+  id: DevLensTabId;
+  label: string;
+  badge?: number;
+};
+
 function RequestStatusBadge({ request }: { request: NetworkRequestRecord }) {
   if (request.status === 'pending') {
     return <span className="devlens-muted">Pending</span>;
@@ -191,6 +199,139 @@ function NetworkPanel({ requests }: { requests: NetworkRequestRecord[] }) {
   );
 }
 
+function PlaceholderPanel({ title, description }: { title: string; description: string }) {
+  return (
+    <div className="devlens-placeholder">
+      <div className="devlens-placeholder-title">{title}</div>
+      <p>{description}</p>
+    </div>
+  );
+}
+function formatDuration(value?: number) {
+  if (!value) return '--';
+
+  return `${value}ms`;
+}
+
+function OverviewMetricCard({
+  label,
+  value,
+  hint,
+}: {
+  label: string;
+  value: string | number;
+  hint: string;
+}) {
+  return (
+    <div className="devlens-overview-card">
+      <span className="devlens-overview-label">{label}</span>
+      <strong className="devlens-overview-value">{value}</strong>
+      <span className="devlens-overview-hint">{hint}</span>
+    </div>
+  );
+}
+
+function OverviewPanel({ requests }: { requests: NetworkRequestRecord[] }) {
+  const completedRequests = requests.filter((request) => request.status !== 'pending');
+  const errorCount = requests.filter((request) => request.status === 'error').length;
+  const slowCount = requests.filter((request) => request.isSlow).length;
+
+  const totalDuration = completedRequests.reduce(
+    (sum, request) => sum + (request.duration ?? 0),
+    0,
+  );
+
+  const averageDuration =
+    completedRequests.length > 0 ? Math.round(totalDuration / completedRequests.length) : undefined;
+
+  const latestRequest = requests[0];
+
+  return (
+    <div className="devlens-overview">
+      <div className="devlens-overview-grid">
+        <OverviewMetricCard
+          label="API Requests"
+          value={requests.length}
+          hint="Captured fetch calls"
+        />
+        <OverviewMetricCard label="Slow Requests" value={slowCount} hint="Successful slow APIs" />
+        <OverviewMetricCard label="Errors" value={errorCount} hint="Failed API responses" />
+        <OverviewMetricCard
+          label="Avg Duration"
+          value={formatDuration(averageDuration)}
+          hint="Completed requests"
+        />
+      </div>
+
+      <div className="devlens-overview-section">
+        <div className="devlens-overview-section-title">Latest Request</div>
+
+        {latestRequest ? (
+          <div className="devlens-latest-request">
+            <div className="devlens-latest-request-top">
+              <span className="devlens-method-pill">{latestRequest.method}</span>
+              <RequestStatusBadge request={latestRequest} />
+              <RequestFlags request={latestRequest} />
+            </div>
+
+            <div className="devlens-details-url" title={latestRequest.url}>
+              {latestRequest.url}
+            </div>
+
+            <div className="devlens-latest-request-meta">
+              <span>Duration: {formatDuration(latestRequest.duration)}</span>
+              <span>Status: {latestRequest.statusCode ?? latestRequest.status}</span>
+            </div>
+          </div>
+        ) : (
+          <div className="devlens-empty">No requests captured yet.</div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function DevLensTabContent({
+  activeTab,
+  requests,
+}: {
+  activeTab: DevLensTabId;
+  requests: NetworkRequestRecord[];
+}) {
+  if (activeTab === 'network') {
+    return <NetworkPanel requests={requests} />;
+  }
+
+  if (activeTab === 'overview') {
+    return <OverviewPanel requests={requests} />;
+  }
+
+  if (activeTab === 'console') {
+    return (
+      <PlaceholderPanel
+        title="Console"
+        description="Console logs, warnings, errors, and traces will appear here in a future step."
+      />
+    );
+  }
+
+  if (activeTab === 'performance') {
+    return (
+      <PlaceholderPanel
+        title="Performance"
+        description="Performance metrics like FPS, memory usage, long tasks, and render timing will appear here."
+      />
+    );
+  }
+
+  return (
+    <PlaceholderPanel
+      title="Settings"
+      description="DevLens preferences, theme, slow request threshold, and visibility options will appear here."
+    />
+  );
+}
+
 function DevLensDrawer({
   open,
   requests,
@@ -200,7 +341,19 @@ function DevLensDrawer({
   requests: NetworkRequestRecord[];
   onClose: () => void;
 }) {
+  const [activeTab, setActiveTab] = useState<DevLensTabId>('network');
+
   if (!open) return null;
+
+  const errorCount = requests.filter((request) => request.status === 'error').length;
+
+  const tabs: DevLensTab[] = [
+    { id: 'overview', label: 'Overview' },
+    { id: 'network', label: 'Network', badge: requests.length },
+    { id: 'console', label: 'Console', badge: errorCount },
+    { id: 'performance', label: 'Performance' },
+    { id: 'settings', label: 'Settings' },
+  ];
 
   return (
     <div className="devlens-drawer">
@@ -213,12 +366,23 @@ function DevLensDrawer({
       </div>
 
       <div className="devlens-tabs">
-        <button type="button" className="devlens-tab">
-          Network
-        </button>
+        {tabs.map((tab) => (
+          <button
+            key={tab.id}
+            type="button"
+            className={`devlens-tab ${activeTab === tab.id ? 'devlens-tab-active' : ''}`}
+            onClick={() => setActiveTab(tab.id)}
+          >
+            <span>{tab.label}</span>
+
+            {typeof tab.badge === 'number' && tab.badge > 0 && (
+              <span className="devlens-tab-badge">{tab.badge}</span>
+            )}
+          </button>
+        ))}
       </div>
 
-      <NetworkPanel requests={requests} />
+      <DevLensTabContent activeTab={activeTab} requests={requests} />
     </div>
   );
 }

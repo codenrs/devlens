@@ -293,3 +293,141 @@
     ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
     monospace;
 }
+.devlens-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.devlens-tab-active {
+  border-color: rgba(192, 132, 252, 0.65);
+  background: rgba(168, 85, 247, 0.24);
+  color: #ffffff;
+}
+
+.devlens-tab-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: rgba(239, 68, 68, 0.18);
+  color: #fecaca;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.devlens-placeholder {
+  min-height: 280px;
+  padding: 36px 24px;
+  color: #94a3b8;
+  text-align: center;
+}
+
+.devlens-placeholder-title {
+  margin-bottom: 8px;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.devlens-placeholder p {
+  max-width: 460px;
+  margin: 0 auto;
+  line-height: 1.6;
+  font-size: 13px;
+}
+.devlens-overview {
+  padding: 16px;
+  max-height: 400px;
+  overflow: auto;
+}
+
+.devlens-overview-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.devlens-overview-card {
+  border: 1px solid rgba(168, 85, 247, 0.18);
+  background: rgba(15, 23, 42, 0.38);
+  border-radius: 14px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.devlens-overview-label {
+  color: #94a3b8;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.devlens-overview-value {
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.devlens-overview-hint {
+  color: #94a3b8;
+  font-size: 11px;
+}
+
+.devlens-overview-section {
+  border: 1px solid rgba(168, 85, 247, 0.18);
+  background: rgba(15, 23, 42, 0.28);
+  border-radius: 14px;
+  padding: 14px;
+}
+
+.devlens-overview-section-title {
+  margin-bottom: 12px;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.devlens-latest-request {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.devlens-latest-request-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.devlens-latest-request-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+@media (max-width: 900px) {
+  .devlens-overview-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .devlens-overview-grid {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+
+  .devlens-details-grid {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}
