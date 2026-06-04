@@ -7,6 +7,7 @@ export type DevLensEventType =
   | 'network:request'
   | 'network:response'
   | 'network:error'
+  | 'network:slow'
   | 'console:log'
   | 'console:warn'
   | 'console:error'
