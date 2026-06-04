@@ -1,0 +1,36 @@
+{
+  "name": "@codenrs/devlens-next",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Next.js adapter for DevLens.",
+  "license": "AGPL-3.0-only",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "tsup src/index.tsx --watch",
+    "build": "tsup src/index.tsx --format esm,cjs --dts --clean --external react --external next",
+    "typecheck": "tsc --noEmit",
+    "lint": "echo \"lint next\"",
+    "clean": "rimraf dist"
+  },
+  "peerDependencies": {
+    "next": ">=13",
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "dependencies": {
+    "@codenrs/devlens-react": "workspace:*"
+  }
+}
