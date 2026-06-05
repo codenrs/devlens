@@ -4,6 +4,8 @@ export * from './network';
 export * from './stores/networkStore';
 export * from './console';
 export * from './stores/consoleStore';
+export * from './performance';
+export * from './stores/performanceStore';
 
 type DevLensListener<TPayload = unknown> = (event: DevLensEvent<TPayload>) => void;
 

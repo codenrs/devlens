@@ -2,8 +2,10 @@ import React, { useEffect } from 'react';
 import {
   installConsoleInterceptor,
   installFetchInterceptor,
+  installFpsMonitor,
   uninstallConsoleInterceptor,
   uninstallFetchInterceptor,
+  uninstallFpsMonitor,
 } from '@codenrs/devlens-core';
 import { DevLensBar, type DevLensBarProps } from '@codenrs/devlens-ui';
 import '@codenrs/devlens-ui/styles/devlens.css';
@@ -22,10 +24,12 @@ export function DevLens({ enabled, ...props }: DevLensProps) {
 
     installFetchInterceptor();
     installConsoleInterceptor();
+    installFpsMonitor();
 
     return () => {
       uninstallFetchInterceptor();
       uninstallConsoleInterceptor();
+      uninstallFpsMonitor();
     };
   }, [shouldRender]);
 

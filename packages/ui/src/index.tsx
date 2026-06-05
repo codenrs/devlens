@@ -3,8 +3,10 @@ import {
   consoleStore,
   devlensCore,
   networkStore,
+  performanceStore,
   type ConsoleRecord,
   type NetworkRequestRecord,
+  type PerformanceSnapshot,
 } from '@codenrs/devlens-core';
 
 export type DevLensBarProps = {
@@ -240,9 +242,11 @@ function OverviewMetricCard({
 function OverviewPanel({
   requests,
   consoleRecords,
+  performanceSnapshot,
 }: {
   requests: NetworkRequestRecord[];
   consoleRecords: ConsoleRecord[];
+  performanceSnapshot: PerformanceSnapshot;
 }) {
   const completedRequests = requests.filter((request) => request.status !== 'pending');
   const errorCount = requests.filter((request) => request.status === 'error').length;
@@ -290,7 +294,11 @@ function OverviewPanel({
           value={consoleErrorCount}
           hint="console.error entries"
         />
-        <OverviewMetricCard label="FPS" value="--" hint="Coming in performance step" />
+        <OverviewMetricCard
+          label="FPS"
+          value={performanceSnapshot.fps || '--'}
+          hint="Current frame rate"
+        />
       </div>
 
       <div className="devlens-overview-split">
@@ -402,17 +410,25 @@ function DevLensTabContent({
   activeTab,
   requests,
   consoleRecords,
+  performanceSnapshot,
 }: {
   activeTab: DevLensTabId;
   requests: NetworkRequestRecord[];
   consoleRecords: ConsoleRecord[];
+  performanceSnapshot: PerformanceSnapshot;
 }) {
   if (activeTab === 'network') {
     return <NetworkPanel requests={requests} />;
   }
 
   if (activeTab === 'overview') {
-    return <OverviewPanel requests={requests} consoleRecords={consoleRecords} />;
+    return (
+      <OverviewPanel
+        requests={requests}
+        consoleRecords={consoleRecords}
+        performanceSnapshot={performanceSnapshot}
+      />
+    );
   }
 
   if (activeTab === 'console') {
@@ -421,10 +437,18 @@ function DevLensTabContent({
 
   if (activeTab === 'performance') {
     return (
-      <PlaceholderPanel
-        title="Performance"
-        description="Performance metrics like FPS, memory usage, long tasks, and render timing will appear here."
-      />
+      <div className="devlens-overview">
+        <div className="devlens-overview-grid">
+          <OverviewMetricCard
+            label="FPS"
+            value={performanceSnapshot.fps || '--'}
+            hint="requestAnimationFrame based"
+          />
+          <OverviewMetricCard label="Memory" value="--" hint="Coming soon" />
+          <OverviewMetricCard label="Long Tasks" value="--" hint="Coming soon" />
+          <OverviewMetricCard label="Render Time" value="--" hint="Coming soon" />
+        </div>
+      </div>
     );
   }
 
@@ -440,11 +464,13 @@ function DevLensDrawer({
   open,
   requests,
   consoleRecords,
+  performanceSnapshot,
   onClose,
 }: {
   open: boolean;
   requests: NetworkRequestRecord[];
   consoleRecords: ConsoleRecord[];
+  performanceSnapshot: PerformanceSnapshot;
   onClose: () => void;
 }) {
   const [activeTab, setActiveTab] = useState<DevLensTabId>('network');
@@ -492,6 +518,7 @@ function DevLensDrawer({
         activeTab={activeTab}
         requests={requests}
         consoleRecords={consoleRecords}
+        performanceSnapshot={performanceSnapshot}
       />
     </div>
   );
@@ -501,16 +528,22 @@ export function DevLensBar({ position = 'bottom-right' }: DevLensBarProps) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [requests, setRequests] = useState<NetworkRequestRecord[]>([]);
   const [consoleRecords, setConsoleRecords] = useState<ConsoleRecord[]>([]);
+  const [performanceSnapshot, setPerformanceSnapshot] = useState<PerformanceSnapshot>({
+    fps: 0,
+    lastUpdatedAt: Date.now(),
+  });
 
   useEffect(() => {
     devlensCore.emit('devlens:init', { source: 'ui' });
 
     const unsubscribeStore = networkStore.subscribe(setRequests);
     const unsubscribeConsoleStore = consoleStore.subscribe(setConsoleRecords);
+    const unsubscribePerformanceStore = performanceStore.subscribe(setPerformanceSnapshot);
 
     return () => {
       unsubscribeStore();
       unsubscribeConsoleStore();
+      unsubscribePerformanceStore();
     };
   }, []);
 
@@ -524,6 +557,7 @@ export function DevLensBar({ position = 'bottom-right' }: DevLensBarProps) {
         open={drawerOpen}
         requests={requests}
         consoleRecords={consoleRecords}
+        performanceSnapshot={performanceSnapshot}
         onClose={() => setDrawerOpen(false)}
       />
 
@@ -535,7 +569,7 @@ export function DevLensBar({ position = 'bottom-right' }: DevLensBarProps) {
         <span>API {apiCount}</span>
         <span>Slow {slowCount}</span>
         <span>Errors {errorCount}</span>
-        <span>FPS --</span>
+        <span>FPS {performanceSnapshot.fps || '--'}</span>
       </div>
     </div>
   );
