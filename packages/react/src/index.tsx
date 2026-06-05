@@ -3,9 +3,11 @@ import {
   installConsoleInterceptor,
   installFetchInterceptor,
   installFpsMonitor,
+  installLongTaskMonitor,
   uninstallConsoleInterceptor,
   uninstallFetchInterceptor,
   uninstallFpsMonitor,
+  uninstallLongTaskMonitor,
 } from '@codenrs/devlens-core';
 import { DevLensBar, type DevLensBarProps } from '@codenrs/devlens-ui';
 import '@codenrs/devlens-ui/styles/devlens.css';
@@ -25,11 +27,13 @@ export function DevLens({ enabled, ...props }: DevLensProps) {
     installFetchInterceptor();
     installConsoleInterceptor();
     installFpsMonitor();
+    installLongTaskMonitor();
 
     return () => {
       uninstallFetchInterceptor();
       uninstallConsoleInterceptor();
       uninstallFpsMonitor();
+      uninstallLongTaskMonitor();
     };
   }, [shouldRender]);
 

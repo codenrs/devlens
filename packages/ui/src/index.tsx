@@ -223,6 +223,10 @@ function formatConsoleTime(timestamp: number) {
   return new Date(timestamp).toLocaleTimeString();
 }
 
+function formatPerformanceTime(timestamp: number) {
+  return new Date(timestamp).toLocaleTimeString();
+}
+
 function getFpsStatusLabel(status: PerformanceSnapshot['status']) {
   if (status === 'good') return 'Good';
   if (status === 'warning') return 'Warning';
@@ -451,6 +455,7 @@ function ConsolePanel({ records }: { records: ConsoleRecord[] }) {
 
 function PerformancePanel({ performanceSnapshot }: { performanceSnapshot: PerformanceSnapshot }) {
   const samples = performanceSnapshot.samples.slice(-24);
+  const latestLongTask = performanceSnapshot.longTasks[0];
 
   return (
     <div className="devlens-performance">
@@ -469,15 +474,15 @@ function PerformancePanel({ performanceSnapshot }: { performanceSnapshot: Perfor
         />
 
         <OverviewMetricCard
-          label="Min FPS"
-          value={formatFps(performanceSnapshot.minFps)}
-          hint="Lowest captured FPS"
+          label="Long Tasks"
+          value={performanceSnapshot.longTasks.length}
+          hint="Main thread blocking"
         />
 
         <OverviewMetricCard
-          label="Max FPS"
-          value={formatFps(performanceSnapshot.maxFps)}
-          hint="Highest captured FPS"
+          label="Latest Block"
+          value={latestLongTask ? formatDuration(latestLongTask.duration) : '--'}
+          hint="Most recent long task"
         />
       </div>
 
@@ -498,6 +503,43 @@ function PerformancePanel({ performanceSnapshot }: { performanceSnapshot: Perfor
                   className={`devlens-fps-bar devlens-fps-bar-${getPerformanceStatusClass(sample.fps)}`}
                   style={{ height: `${Math.max(8, Math.min(100, (sample.fps / 60) * 100))}%` }}
                 />
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="devlens-overview-section">
+        <div className="devlens-section-toolbar">
+          <div className="devlens-overview-section-title">Long Tasks</div>
+
+          <button
+            type="button"
+            className="devlens-clear-button"
+            onClick={() => performanceStore.clearLongTasks()}
+            disabled={performanceSnapshot.longTasks.length === 0}
+          >
+            Clear
+          </button>
+        </div>
+
+        {performanceSnapshot.longTasks.length === 0 ? (
+          <div className="devlens-empty">No long tasks detected yet.</div>
+        ) : (
+          <div className="devlens-long-task-list">
+            {performanceSnapshot.longTasks.map((task) => (
+              <div key={task.id} className="devlens-long-task-row">
+                <div className="devlens-long-task-main">
+                  <span className="devlens-badge devlens-badge-slow">
+                    {formatDuration(task.duration)}
+                  </span>
+
+                  <span className="devlens-long-task-name">{task.name}</span>
+                </div>
+
+                <span className="devlens-console-time">
+                  {formatPerformanceTime(task.timestamp)}
+                </span>
               </div>
             ))}
           </div>
@@ -685,6 +727,7 @@ export function DevLensBar({ position = 'bottom-right', defaultTheme = 'dark' }:
     maxFps: 0,
     status: 'idle',
     samples: [],
+    longTasks: [],
     lastUpdatedAt: Date.now(),
   });
 

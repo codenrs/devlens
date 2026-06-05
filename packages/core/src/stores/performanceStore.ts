@@ -1,8 +1,14 @@
-import type { FpsSample, PerformanceSnapshot, PerformanceStatus } from '../performance/types';
+import type {
+  FpsSample,
+  LongTaskRecord,
+  PerformanceSnapshot,
+  PerformanceStatus,
+} from '../performance/types';
 
 type PerformanceStoreListener = (snapshot: PerformanceSnapshot) => void;
 
 const MAX_FPS_SAMPLES = 60;
+const MAX_LONG_TASKS = 100;
 
 const snapshot: PerformanceSnapshot = {
   fps: 0,
@@ -11,6 +17,7 @@ const snapshot: PerformanceSnapshot = {
   maxFps: 0,
   status: 'idle',
   samples: [],
+  longTasks: [],
   lastUpdatedAt: Date.now(),
 };
 
@@ -32,29 +39,28 @@ function calculateAverage(samples: FpsSample[]) {
   return Math.round(total / samples.length);
 }
 
-function notify() {
-  const currentSnapshot: PerformanceSnapshot = {
+function createSnapshot(): PerformanceSnapshot {
+  return {
     ...snapshot,
     samples: [...snapshot.samples],
+    longTasks: [...snapshot.longTasks],
   };
+}
+
+function notify() {
+  const currentSnapshot = createSnapshot();
 
   listeners.forEach((listener) => listener(currentSnapshot));
 }
 
 export const performanceStore = {
   getSnapshot() {
-    return {
-      ...snapshot,
-      samples: [...snapshot.samples],
-    };
+    return createSnapshot();
   },
 
   subscribe(listener: PerformanceStoreListener) {
     listeners.add(listener);
-    listener({
-      ...snapshot,
-      samples: [...snapshot.samples],
-    });
+    listener(createSnapshot());
 
     return () => {
       listeners.delete(listener);
@@ -85,6 +91,25 @@ export const performanceStore = {
     notify();
   },
 
+  addLongTask(record: LongTaskRecord) {
+    snapshot.longTasks.unshift(record);
+
+    if (snapshot.longTasks.length > MAX_LONG_TASKS) {
+      snapshot.longTasks.pop();
+    }
+
+    snapshot.lastUpdatedAt = Date.now();
+
+    notify();
+  },
+
+  clearLongTasks() {
+    snapshot.longTasks = [];
+    snapshot.lastUpdatedAt = Date.now();
+
+    notify();
+  },
+
   reset() {
     snapshot.fps = 0;
     snapshot.averageFps = 0;
@@ -92,6 +117,7 @@ export const performanceStore = {
     snapshot.maxFps = 0;
     snapshot.status = 'idle';
     snapshot.samples = [];
+    snapshot.longTasks = [];
     snapshot.lastUpdatedAt = Date.now();
 
     notify();

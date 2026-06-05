@@ -815,3 +815,49 @@
     flex-direction: column;
   }
 }
+
+/* ==========================================================================
+   Long Task Detection
+   ========================================================================== */
+
+.devlens-section-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.devlens-long-task-list {
+  max-height: 160px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.devlens-long-task-row {
+  border: 1px solid var(--devlens-border-soft);
+  background: var(--devlens-bg-muted);
+  border-radius: 12px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.devlens-long-task-main {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.devlens-long-task-name {
+  min-width: 0;
+  color: var(--devlens-text);
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
