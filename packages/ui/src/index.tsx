@@ -9,8 +9,11 @@ import {
   type PerformanceSnapshot,
 } from '@codenrs/devlens-core';
 
+export type DevLensTheme = 'dark' | 'light';
+
 export type DevLensBarProps = {
   position?: 'bottom-left' | 'bottom-right';
+  defaultTheme?: DevLensTheme;
 };
 
 type DevLensTabId = 'overview' | 'network' | 'console' | 'performance' | 'settings';
@@ -22,9 +25,7 @@ type DevLensTab = {
 };
 
 function RequestStatusBadge({ request }: { request: NetworkRequestRecord }) {
-  if (request.status === 'pending') {
-    return <span className="devlens-muted">Pending</span>;
-  }
+  if (request.status === 'pending') return <span className="devlens-muted">Pending</span>;
 
   if (request.status === 'success') {
     return <span className="devlens-badge devlens-badge-success">{request.statusCode}</span>;
@@ -36,14 +37,11 @@ function RequestStatusBadge({ request }: { request: NetworkRequestRecord }) {
 function RequestFlags({ request }: { request: NetworkRequestRecord }) {
   const hasFlags = request.isSlow || request.status === 'error';
 
-  if (!hasFlags) {
-    return <span className="devlens-muted">--</span>;
-  }
+  if (!hasFlags) return <span className="devlens-muted">--</span>;
 
   return (
     <div className="devlens-flags">
       {request.isSlow && <span className="devlens-badge devlens-badge-slow">Slow</span>}
-
       {request.status === 'error' && (
         <span className="devlens-badge devlens-badge-error">Error</span>
       )}
@@ -64,10 +62,7 @@ function NetworkDetailsPanel({
     try {
       await navigator.clipboard.writeText(request.url);
       setCopied(true);
-
-      window.setTimeout(() => {
-        setCopied(false);
-      }, 1200);
+      window.setTimeout(() => setCopied(false), 1200);
     } catch {
       setCopied(false);
     }
@@ -149,9 +144,7 @@ function NetworkPanel({ requests }: { requests: NetworkRequestRecord[] }) {
 
     const stillExists = requests.some((request) => request.id === selectedRequestId);
 
-    if (!stillExists) {
-      setSelectedRequestId(null);
-    }
+    if (!stillExists) setSelectedRequestId(null);
   }, [requests, selectedRequestId]);
 
   if (selectedRequest) {
@@ -215,24 +208,32 @@ function PlaceholderPanel({ title, description }: { title: string; description: 
     </div>
   );
 }
+
 function formatDuration(value?: number) {
   if (!value) return '--';
-
   return `${value}ms`;
 }
 
 function formatFps(value?: number) {
   if (!value) return '--';
-
   return value;
+}
+
+function formatConsoleTime(timestamp: number) {
+  return new Date(timestamp).toLocaleTimeString();
 }
 
 function getFpsStatusLabel(status: PerformanceSnapshot['status']) {
   if (status === 'good') return 'Good';
   if (status === 'warning') return 'Warning';
   if (status === 'poor') return 'Poor';
-
   return 'Idle';
+}
+
+function getPerformanceStatusClass(fps: number) {
+  if (fps >= 50) return 'good';
+  if (fps >= 30) return 'warning';
+  return 'poor';
 }
 
 function OverviewMetricCard({
@@ -264,6 +265,20 @@ function OverviewMetricCard({
   );
 }
 
+function ConsoleMessage({ message, compact = false }: { message: string; compact?: boolean }) {
+  return (
+    <pre
+      className={
+        compact
+          ? 'devlens-console-message devlens-console-message-compact'
+          : 'devlens-console-message'
+      }
+    >
+      {message}
+    </pre>
+  );
+}
+
 function OverviewPanel({
   requests,
   consoleRecords,
@@ -283,7 +298,6 @@ function OverviewPanel({
     (sum, request) => sum + (request.duration ?? 0),
     0,
   );
-
   const averageDuration =
     completedRequests.length > 0 ? Math.round(totalDuration / completedRequests.length) : undefined;
 
@@ -372,7 +386,7 @@ function OverviewPanel({
                 </span>
               </div>
 
-              <pre className="devlens-console-message">{latestConsoleRecord.message}</pre>
+              <ConsoleMessage message={latestConsoleRecord.message} compact />
             </div>
           ) : (
             <div className="devlens-empty">No console logs captured yet.</div>
@@ -383,17 +397,20 @@ function OverviewPanel({
   );
 }
 
-function formatConsoleTime(timestamp: number) {
-  return new Date(timestamp).toLocaleTimeString();
-}
-
 function ConsolePanel({ records }: { records: ConsoleRecord[] }) {
+  const warnCount = records.filter((record) => record.level === 'warn').length;
+  const errorCount = records.filter((record) => record.level === 'error').length;
+
   return (
     <div className="devlens-console">
       <div className="devlens-console-toolbar">
         <div className="devlens-console-summary">
           <strong>{records.length}</strong>
-          <span>logs captured</span>
+          <span>logs</span>
+          <span>•</span>
+          <span>{warnCount} warnings</span>
+          <span>•</span>
+          <span>{errorCount} errors</span>
         </div>
 
         <button
@@ -423,20 +440,13 @@ function ConsolePanel({ records }: { records: ConsoleRecord[] }) {
                 <span className="devlens-console-time">{formatConsoleTime(record.timestamp)}</span>
               </div>
 
-              <pre className="devlens-console-message">{record.message}</pre>
+              <ConsoleMessage message={record.message} />
             </div>
           ))}
         </div>
       )}
     </div>
   );
-}
-
-function getPerformanceStatusClass(fps: number) {
-  if (fps >= 50) return 'good';
-  if (fps >= 30) return 'warning';
-
-  return 'poor';
 }
 
 function PerformancePanel({ performanceSnapshot }: { performanceSnapshot: PerformanceSnapshot }) {
@@ -485,12 +495,8 @@ function PerformancePanel({ performanceSnapshot }: { performanceSnapshot: Perfor
                 title={`${sample.fps} FPS`}
               >
                 <div
-                  className={`devlens-fps-bar devlens-fps-bar-${getPerformanceStatusClass(
-                    sample.fps,
-                  )}`}
-                  style={{
-                    height: `${Math.max(8, Math.min(100, (sample.fps / 60) * 100))}%`,
-                  }}
+                  className={`devlens-fps-bar devlens-fps-bar-${getPerformanceStatusClass(sample.fps)}`}
+                  style={{ height: `${Math.max(8, Math.min(100, (sample.fps / 60) * 100))}%` }}
                 />
               </div>
             ))}
@@ -501,20 +507,73 @@ function PerformancePanel({ performanceSnapshot }: { performanceSnapshot: Perfor
   );
 }
 
+function SettingsPanel({
+  theme,
+  onThemeChange,
+}: {
+  theme: DevLensTheme;
+  onThemeChange: (theme: DevLensTheme) => void;
+}) {
+  return (
+    <div className="devlens-settings">
+      <div className="devlens-overview-section">
+        <div className="devlens-overview-section-title">Appearance</div>
+
+        <div className="devlens-setting-row">
+          <div>
+            <div className="devlens-setting-title">Theme</div>
+            <div className="devlens-setting-description">
+              Switch DevLens UI between dark and light mode.
+            </div>
+          </div>
+
+          <div className="devlens-theme-switch">
+            <button
+              type="button"
+              className={`devlens-theme-option ${theme === 'dark' ? 'devlens-theme-option-active' : ''}`}
+              onClick={() => onThemeChange('dark')}
+            >
+              Dark
+            </button>
+
+            <button
+              type="button"
+              className={`devlens-theme-option ${theme === 'light' ? 'devlens-theme-option-active' : ''}`}
+              onClick={() => onThemeChange('light')}
+            >
+              Light
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="devlens-overview-section">
+        <div className="devlens-overview-section-title">Developer UX</div>
+        <p className="devlens-settings-text">
+          More preferences like slow request threshold, default tab, and panel size will be added in
+          later steps.
+        </p>
+      </div>
+    </div>
+  );
+}
+
 function DevLensTabContent({
   activeTab,
   requests,
   consoleRecords,
   performanceSnapshot,
+  theme,
+  onThemeChange,
 }: {
   activeTab: DevLensTabId;
   requests: NetworkRequestRecord[];
   consoleRecords: ConsoleRecord[];
   performanceSnapshot: PerformanceSnapshot;
+  theme: DevLensTheme;
+  onThemeChange: (theme: DevLensTheme) => void;
 }) {
-  if (activeTab === 'network') {
-    return <NetworkPanel requests={requests} />;
-  }
+  if (activeTab === 'network') return <NetworkPanel requests={requests} />;
 
   if (activeTab === 'overview') {
     return (
@@ -526,20 +585,12 @@ function DevLensTabContent({
     );
   }
 
-  if (activeTab === 'console') {
-    return <ConsolePanel records={consoleRecords} />;
-  }
+  if (activeTab === 'console') return <ConsolePanel records={consoleRecords} />;
 
-  if (activeTab === 'performance') {
+  if (activeTab === 'performance')
     return <PerformancePanel performanceSnapshot={performanceSnapshot} />;
-  }
 
-  return (
-    <PlaceholderPanel
-      title="Settings"
-      description="DevLens preferences, theme, slow request threshold, and visibility options will appear here."
-    />
-  );
+  return <SettingsPanel theme={theme} onThemeChange={onThemeChange} />;
 }
 
 function DevLensDrawer({
@@ -547,12 +598,16 @@ function DevLensDrawer({
   requests,
   consoleRecords,
   performanceSnapshot,
+  theme,
+  onThemeChange,
   onClose,
 }: {
   open: boolean;
   requests: NetworkRequestRecord[];
   consoleRecords: ConsoleRecord[];
   performanceSnapshot: PerformanceSnapshot;
+  theme: DevLensTheme;
+  onThemeChange: (theme: DevLensTheme) => void;
   onClose: () => void;
 }) {
   const [activeTab, setActiveTab] = useState<DevLensTabId>('network');
@@ -574,9 +629,19 @@ function DevLensDrawer({
       <div className="devlens-drawer-header">
         <div className="devlens-drawer-title">DevLens Inspector</div>
 
-        <button type="button" className="devlens-close-button" onClick={onClose}>
-          ×
-        </button>
+        <div className="devlens-drawer-actions">
+          <button
+            type="button"
+            className="devlens-header-action"
+            onClick={() => onThemeChange(theme === 'dark' ? 'light' : 'dark')}
+          >
+            {theme === 'dark' ? 'Light' : 'Dark'}
+          </button>
+
+          <button type="button" className="devlens-close-button" onClick={onClose}>
+            ×
+          </button>
+        </div>
       </div>
 
       <div className="devlens-tabs">
@@ -601,13 +666,16 @@ function DevLensDrawer({
         requests={requests}
         consoleRecords={consoleRecords}
         performanceSnapshot={performanceSnapshot}
+        theme={theme}
+        onThemeChange={onThemeChange}
       />
     </div>
   );
 }
 
-export function DevLensBar({ position = 'bottom-right' }: DevLensBarProps) {
+export function DevLensBar({ position = 'bottom-right', defaultTheme = 'dark' }: DevLensBarProps) {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [theme, setTheme] = useState<DevLensTheme>(defaultTheme);
   const [requests, setRequests] = useState<NetworkRequestRecord[]>([]);
   const [consoleRecords, setConsoleRecords] = useState<ConsoleRecord[]>([]);
   const [performanceSnapshot, setPerformanceSnapshot] = useState<PerformanceSnapshot>({
@@ -639,12 +707,14 @@ export function DevLensBar({ position = 'bottom-right' }: DevLensBarProps) {
   const slowCount = requests.filter((request) => request.isSlow).length;
 
   return (
-    <div className="devlens-root">
+    <div className={`devlens-root devlens-theme-${theme}`}>
       <DevLensDrawer
         open={drawerOpen}
         requests={requests}
         consoleRecords={consoleRecords}
         performanceSnapshot={performanceSnapshot}
+        theme={theme}
+        onThemeChange={setTheme}
         onClose={() => setDrawerOpen(false)}
       />
 
