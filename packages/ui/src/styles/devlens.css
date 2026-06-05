@@ -578,3 +578,81 @@
     grid-template-columns: repeat(1, minmax(0, 1fr));
   }
 }
+
+.devlens-overview-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.devlens-status-pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 2px 7px;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.devlens-status-pill-good {
+  color: #86efac;
+  background: rgba(34, 197, 94, 0.15);
+}
+
+.devlens-status-pill-warning {
+  color: #fcd34d;
+  background: rgba(245, 158, 11, 0.16);
+}
+
+.devlens-status-pill-poor {
+  color: #fca5a5;
+  background: rgba(239, 68, 68, 0.16);
+}
+
+.devlens-status-pill-idle {
+  color: #cbd5e1;
+  background: rgba(148, 163, 184, 0.14);
+}
+
+.devlens-performance {
+  padding: 16px;
+  max-height: 400px;
+  overflow: auto;
+}
+
+.devlens-fps-bars {
+  height: 140px;
+  display: flex;
+  align-items: flex-end;
+  gap: 5px;
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(2, 6, 23, 0.28);
+  border: 1px solid rgba(148, 163, 184, 0.12);
+}
+
+.devlens-fps-bar-wrap {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+}
+
+.devlens-fps-bar {
+  width: 100%;
+  min-height: 8px;
+  border-radius: 999px 999px 4px 4px;
+}
+
+.devlens-fps-bar-good {
+  background: rgba(34, 197, 94, 0.75);
+}
+
+.devlens-fps-bar-warning {
+  background: rgba(245, 158, 11, 0.78);
+}
+
+.devlens-fps-bar-poor {
+  background: rgba(239, 68, 68, 0.78);
+}

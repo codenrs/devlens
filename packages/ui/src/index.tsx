@@ -221,18 +221,43 @@ function formatDuration(value?: number) {
   return `${value}ms`;
 }
 
+function formatFps(value?: number) {
+  if (!value) return '--';
+
+  return value;
+}
+
+function getFpsStatusLabel(status: PerformanceSnapshot['status']) {
+  if (status === 'good') return 'Good';
+  if (status === 'warning') return 'Warning';
+  if (status === 'poor') return 'Poor';
+
+  return 'Idle';
+}
+
 function OverviewMetricCard({
   label,
   value,
   hint,
+  status,
 }: {
   label: string;
   value: string | number;
   hint: string;
+  status?: PerformanceSnapshot['status'];
 }) {
   return (
     <div className="devlens-overview-card">
-      <span className="devlens-overview-label">{label}</span>
+      <div className="devlens-overview-card-head">
+        <span className="devlens-overview-label">{label}</span>
+
+        {status && (
+          <span className={`devlens-status-pill devlens-status-pill-${status}`}>
+            {getFpsStatusLabel(status)}
+          </span>
+        )}
+      </div>
+
       <strong className="devlens-overview-value">{value}</strong>
       <span className="devlens-overview-hint">{hint}</span>
     </div>
@@ -296,8 +321,9 @@ function OverviewPanel({
         />
         <OverviewMetricCard
           label="FPS"
-          value={performanceSnapshot.fps || '--'}
-          hint="Current frame rate"
+          value={formatFps(performanceSnapshot.fps)}
+          hint={`Avg ${formatFps(performanceSnapshot.averageFps)} FPS`}
+          status={performanceSnapshot.status}
         />
       </div>
 
@@ -406,6 +432,75 @@ function ConsolePanel({ records }: { records: ConsoleRecord[] }) {
   );
 }
 
+function getPerformanceStatusClass(fps: number) {
+  if (fps >= 50) return 'good';
+  if (fps >= 30) return 'warning';
+
+  return 'poor';
+}
+
+function PerformancePanel({ performanceSnapshot }: { performanceSnapshot: PerformanceSnapshot }) {
+  const samples = performanceSnapshot.samples.slice(-24);
+
+  return (
+    <div className="devlens-performance">
+      <div className="devlens-overview-grid">
+        <OverviewMetricCard
+          label="Current FPS"
+          value={formatFps(performanceSnapshot.fps)}
+          hint="requestAnimationFrame based"
+          status={performanceSnapshot.status}
+        />
+
+        <OverviewMetricCard
+          label="Average FPS"
+          value={formatFps(performanceSnapshot.averageFps)}
+          hint="Last 60 samples"
+        />
+
+        <OverviewMetricCard
+          label="Min FPS"
+          value={formatFps(performanceSnapshot.minFps)}
+          hint="Lowest captured FPS"
+        />
+
+        <OverviewMetricCard
+          label="Max FPS"
+          value={formatFps(performanceSnapshot.maxFps)}
+          hint="Highest captured FPS"
+        />
+      </div>
+
+      <div className="devlens-overview-section">
+        <div className="devlens-overview-section-title">FPS Timeline</div>
+
+        {samples.length === 0 ? (
+          <div className="devlens-empty">FPS samples will appear here shortly.</div>
+        ) : (
+          <div className="devlens-fps-bars">
+            {samples.map((sample) => (
+              <div
+                key={sample.timestamp}
+                className="devlens-fps-bar-wrap"
+                title={`${sample.fps} FPS`}
+              >
+                <div
+                  className={`devlens-fps-bar devlens-fps-bar-${getPerformanceStatusClass(
+                    sample.fps,
+                  )}`}
+                  style={{
+                    height: `${Math.max(8, Math.min(100, (sample.fps / 60) * 100))}%`,
+                  }}
+                />
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function DevLensTabContent({
   activeTab,
   requests,
@@ -436,20 +531,7 @@ function DevLensTabContent({
   }
 
   if (activeTab === 'performance') {
-    return (
-      <div className="devlens-overview">
-        <div className="devlens-overview-grid">
-          <OverviewMetricCard
-            label="FPS"
-            value={performanceSnapshot.fps || '--'}
-            hint="requestAnimationFrame based"
-          />
-          <OverviewMetricCard label="Memory" value="--" hint="Coming soon" />
-          <OverviewMetricCard label="Long Tasks" value="--" hint="Coming soon" />
-          <OverviewMetricCard label="Render Time" value="--" hint="Coming soon" />
-        </div>
-      </div>
-    );
+    return <PerformancePanel performanceSnapshot={performanceSnapshot} />;
   }
 
   return (
@@ -530,6 +612,11 @@ export function DevLensBar({ position = 'bottom-right' }: DevLensBarProps) {
   const [consoleRecords, setConsoleRecords] = useState<ConsoleRecord[]>([]);
   const [performanceSnapshot, setPerformanceSnapshot] = useState<PerformanceSnapshot>({
     fps: 0,
+    averageFps: 0,
+    minFps: 0,
+    maxFps: 0,
+    status: 'idle',
+    samples: [],
     lastUpdatedAt: Date.now(),
   });
 
