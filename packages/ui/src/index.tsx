@@ -24,6 +24,43 @@ type DevLensTab = {
   badge?: number;
 };
 
+const DEVLENS_STORAGE_KEY = 'devlens:ui-state';
+
+type DevLensUiState = {
+  drawerOpen?: boolean;
+  activeTab?: DevLensTabId;
+  theme?: DevLensTheme;
+};
+
+function readDevLensUiState(): DevLensUiState {
+  if (typeof window === 'undefined') return {};
+
+  try {
+    const value = window.localStorage.getItem(DEVLENS_STORAGE_KEY);
+    return value ? (JSON.parse(value) as DevLensUiState) : {};
+  } catch {
+    return {};
+  }
+}
+
+function writeDevLensUiState(patch: DevLensUiState) {
+  if (typeof window === 'undefined') return;
+
+  try {
+    const current = readDevLensUiState();
+
+    window.localStorage.setItem(
+      DEVLENS_STORAGE_KEY,
+      JSON.stringify({
+        ...current,
+        ...patch,
+      }),
+    );
+  } catch {
+    // Ignore storage errors.
+  }
+}
+
 function RequestStatusBadge({ request }: { request: NetworkRequestRecord }) {
   if (request.status === 'pending') return <span className="devlens-muted">Pending</span>;
 
@@ -641,6 +678,8 @@ function DevLensDrawer({
   consoleRecords,
   performanceSnapshot,
   theme,
+  activeTab,
+  onActiveTabChange,
   onThemeChange,
   onClose,
 }: {
@@ -649,11 +688,11 @@ function DevLensDrawer({
   consoleRecords: ConsoleRecord[];
   performanceSnapshot: PerformanceSnapshot;
   theme: DevLensTheme;
+  activeTab: DevLensTabId;
+  onActiveTabChange: (tab: DevLensTabId) => void;
   onThemeChange: (theme: DevLensTheme) => void;
   onClose: () => void;
 }) {
-  const [activeTab, setActiveTab] = useState<DevLensTabId>('network');
-
   if (!open) return null;
 
   const consoleErrorCount = consoleRecords.filter((record) => record.level === 'error').length;
@@ -692,7 +731,7 @@ function DevLensDrawer({
             key={tab.id}
             type="button"
             className={`devlens-tab ${activeTab === tab.id ? 'devlens-tab-active' : ''}`}
-            onClick={() => setActiveTab(tab.id)}
+            onClick={() => onActiveTabChange(tab.id)}
           >
             <span>{tab.label}</span>
 
@@ -716,8 +755,11 @@ function DevLensDrawer({
 }
 
 export function DevLensBar({ position = 'bottom-right', defaultTheme = 'dark' }: DevLensBarProps) {
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const [theme, setTheme] = useState<DevLensTheme>(defaultTheme);
+  const storedUiState = readDevLensUiState();
+
+  const [drawerOpen, setDrawerOpen] = useState(storedUiState.drawerOpen ?? false);
+  const [activeTab, setActiveTab] = useState<DevLensTabId>(storedUiState.activeTab ?? 'network');
+  const [theme, setTheme] = useState<DevLensTheme>(storedUiState.theme ?? defaultTheme);
   const [requests, setRequests] = useState<NetworkRequestRecord[]>([]);
   const [consoleRecords, setConsoleRecords] = useState<ConsoleRecord[]>([]);
   const [performanceSnapshot, setPerformanceSnapshot] = useState<PerformanceSnapshot>({
@@ -749,6 +791,29 @@ export function DevLensBar({ position = 'bottom-right', defaultTheme = 'dark' }:
   const errorCount = requests.filter((request) => request.status === 'error').length;
   const slowCount = requests.filter((request) => request.isSlow).length;
 
+  const handleDrawerToggle = () => {
+    setDrawerOpen((value) => {
+      const nextValue = !value;
+      writeDevLensUiState({ drawerOpen: nextValue });
+      return nextValue;
+    });
+  };
+
+  const handleDrawerClose = () => {
+    setDrawerOpen(false);
+    writeDevLensUiState({ drawerOpen: false });
+  };
+
+  const handleTabChange = (tab: DevLensTabId) => {
+    setActiveTab(tab);
+    writeDevLensUiState({ activeTab: tab });
+  };
+
+  const handleThemeChange = (nextTheme: DevLensTheme) => {
+    setTheme(nextTheme);
+    writeDevLensUiState({ theme: nextTheme });
+  };
+
   return (
     <div className={`devlens-root devlens-theme-${theme}`}>
       <DevLensDrawer
@@ -757,14 +822,13 @@ export function DevLensBar({ position = 'bottom-right', defaultTheme = 'dark' }:
         consoleRecords={consoleRecords}
         performanceSnapshot={performanceSnapshot}
         theme={theme}
-        onThemeChange={setTheme}
-        onClose={() => setDrawerOpen(false)}
+        activeTab={activeTab}
+        onActiveTabChange={handleTabChange}
+        onThemeChange={handleThemeChange}
+        onClose={handleDrawerClose}
       />
 
-      <div
-        className={`devlens-bar devlens-bar-${position}`}
-        onClick={() => setDrawerOpen((value) => !value)}
-      >
+      <div className={`devlens-bar devlens-bar-${position}`} onClick={handleDrawerToggle}>
         <strong className="devlens-brand">DevLens</strong>
         <span>API {apiCount}</span>
         <span>Slow {slowCount}</span>
