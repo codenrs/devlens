@@ -431,3 +431,150 @@
     grid-template-columns: repeat(1, minmax(0, 1fr));
   }
 }
+.devlens-console-panel {
+  max-height: 400px;
+  overflow: auto;
+  padding: 10px;
+}
+
+.devlens-console-row {
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  background: rgba(2, 6, 23, 0.28);
+  border-radius: 12px;
+  padding: 10px;
+  margin-bottom: 8px;
+}
+
+.devlens-console-row-log,
+.devlens-console-row-info,
+.devlens-console-row-debug {
+  border-color: rgba(148, 163, 184, 0.14);
+}
+
+.devlens-console-row-warn {
+  border-color: rgba(245, 158, 11, 0.28);
+  background: rgba(245, 158, 11, 0.08);
+}
+
+.devlens-console-row-error {
+  border-color: rgba(239, 68, 68, 0.28);
+  background: rgba(239, 68, 68, 0.08);
+}
+
+.devlens-console-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.devlens-console-level {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 2px 8px;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.devlens-console-level-log,
+.devlens-console-level-info,
+.devlens-console-level-debug {
+  color: #bfdbfe;
+  background: rgba(59, 130, 246, 0.14);
+}
+
+.devlens-console-level-warn {
+  color: #fcd34d;
+  background: rgba(245, 158, 11, 0.16);
+}
+
+.devlens-console-level-error {
+  color: #fca5a5;
+  background: rgba(239, 68, 68, 0.16);
+}
+
+.devlens-console-time {
+  color: #94a3b8;
+  font-size: 11px;
+}
+
+.devlens-console-message {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: #e5e7eb;
+  font-size: 12px;
+  line-height: 1.5;
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
+    monospace;
+}
+.devlens-overview-grid-compact {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: -4px;
+}
+
+.devlens-overview-split {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.devlens-overview-console {
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  background: rgba(2, 6, 23, 0.28);
+  border-radius: 12px;
+  padding: 10px;
+}
+
+.devlens-console {
+  max-height: 400px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.devlens-console-toolbar {
+  min-height: 44px;
+  padding: 0 12px;
+  border-bottom: 1px solid rgba(168, 85, 247, 0.16);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.devlens-console-summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+.devlens-console-summary strong {
+  color: #ffffff;
+}
+
+.devlens-clear-button {
+  border: 1px solid rgba(239, 68, 68, 0.28);
+  background: rgba(239, 68, 68, 0.1);
+  color: #fecaca;
+  border-radius: 999px;
+  padding: 6px 11px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.devlens-clear-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+@media (max-width: 900px) {
+  .devlens-overview-split {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}

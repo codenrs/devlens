@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { devlensCore, networkStore, type NetworkRequestRecord } from '@codenrs/devlens-core';
+import {
+  consoleStore,
+  devlensCore,
+  networkStore,
+  type ConsoleRecord,
+  type NetworkRequestRecord,
+} from '@codenrs/devlens-core';
 
 export type DevLensBarProps = {
   position?: 'bottom-left' | 'bottom-right';
@@ -231,10 +237,18 @@ function OverviewMetricCard({
   );
 }
 
-function OverviewPanel({ requests }: { requests: NetworkRequestRecord[] }) {
+function OverviewPanel({
+  requests,
+  consoleRecords,
+}: {
+  requests: NetworkRequestRecord[];
+  consoleRecords: ConsoleRecord[];
+}) {
   const completedRequests = requests.filter((request) => request.status !== 'pending');
   const errorCount = requests.filter((request) => request.status === 'error').length;
   const slowCount = requests.filter((request) => request.isSlow).length;
+  const consoleErrorCount = consoleRecords.filter((record) => record.level === 'error').length;
+  const consoleWarnCount = consoleRecords.filter((record) => record.level === 'warn').length;
 
   const totalDuration = completedRequests.reduce(
     (sum, request) => sum + (request.duration ?? 0),
@@ -245,6 +259,7 @@ function OverviewPanel({ requests }: { requests: NetworkRequestRecord[] }) {
     completedRequests.length > 0 ? Math.round(totalDuration / completedRequests.length) : undefined;
 
   const latestRequest = requests[0];
+  const latestConsoleRecord = consoleRecords[0];
 
   return (
     <div className="devlens-overview">
@@ -255,7 +270,7 @@ function OverviewPanel({ requests }: { requests: NetworkRequestRecord[] }) {
           hint="Captured fetch calls"
         />
         <OverviewMetricCard label="Slow Requests" value={slowCount} hint="Successful slow APIs" />
-        <OverviewMetricCard label="Errors" value={errorCount} hint="Failed API responses" />
+        <OverviewMetricCard label="API Errors" value={errorCount} hint="Failed API responses" />
         <OverviewMetricCard
           label="Avg Duration"
           value={formatDuration(averageDuration)}
@@ -263,30 +278,122 @@ function OverviewPanel({ requests }: { requests: NetworkRequestRecord[] }) {
         />
       </div>
 
-      <div className="devlens-overview-section">
-        <div className="devlens-overview-section-title">Latest Request</div>
-
-        {latestRequest ? (
-          <div className="devlens-latest-request">
-            <div className="devlens-latest-request-top">
-              <span className="devlens-method-pill">{latestRequest.method}</span>
-              <RequestStatusBadge request={latestRequest} />
-              <RequestFlags request={latestRequest} />
-            </div>
-
-            <div className="devlens-details-url" title={latestRequest.url}>
-              {latestRequest.url}
-            </div>
-
-            <div className="devlens-latest-request-meta">
-              <span>Duration: {formatDuration(latestRequest.duration)}</span>
-              <span>Status: {latestRequest.statusCode ?? latestRequest.status}</span>
-            </div>
-          </div>
-        ) : (
-          <div className="devlens-empty">No requests captured yet.</div>
-        )}
+      <div className="devlens-overview-grid devlens-overview-grid-compact">
+        <OverviewMetricCard
+          label="Console Logs"
+          value={consoleRecords.length}
+          hint="Captured console entries"
+        />
+        <OverviewMetricCard label="Warnings" value={consoleWarnCount} hint="console.warn entries" />
+        <OverviewMetricCard
+          label="Console Errors"
+          value={consoleErrorCount}
+          hint="console.error entries"
+        />
+        <OverviewMetricCard label="FPS" value="--" hint="Coming in performance step" />
       </div>
+
+      <div className="devlens-overview-split">
+        <div className="devlens-overview-section">
+          <div className="devlens-overview-section-title">Latest Request</div>
+
+          {latestRequest ? (
+            <div className="devlens-latest-request">
+              <div className="devlens-latest-request-top">
+                <span className="devlens-method-pill">{latestRequest.method}</span>
+                <RequestStatusBadge request={latestRequest} />
+                <RequestFlags request={latestRequest} />
+              </div>
+
+              <div className="devlens-details-url" title={latestRequest.url}>
+                {latestRequest.url}
+              </div>
+
+              <div className="devlens-latest-request-meta">
+                <span>Duration: {formatDuration(latestRequest.duration)}</span>
+                <span>Status: {latestRequest.statusCode ?? latestRequest.status}</span>
+              </div>
+            </div>
+          ) : (
+            <div className="devlens-empty">No requests captured yet.</div>
+          )}
+        </div>
+
+        <div className="devlens-overview-section">
+          <div className="devlens-overview-section-title">Latest Console</div>
+
+          {latestConsoleRecord ? (
+            <div
+              className={`devlens-overview-console devlens-console-row-${latestConsoleRecord.level}`}
+            >
+              <div className="devlens-console-meta">
+                <span
+                  className={`devlens-console-level devlens-console-level-${latestConsoleRecord.level}`}
+                >
+                  {latestConsoleRecord.level}
+                </span>
+
+                <span className="devlens-console-time">
+                  {formatConsoleTime(latestConsoleRecord.timestamp)}
+                </span>
+              </div>
+
+              <pre className="devlens-console-message">{latestConsoleRecord.message}</pre>
+            </div>
+          ) : (
+            <div className="devlens-empty">No console logs captured yet.</div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function formatConsoleTime(timestamp: number) {
+  return new Date(timestamp).toLocaleTimeString();
+}
+
+function ConsolePanel({ records }: { records: ConsoleRecord[] }) {
+  return (
+    <div className="devlens-console">
+      <div className="devlens-console-toolbar">
+        <div className="devlens-console-summary">
+          <strong>{records.length}</strong>
+          <span>logs captured</span>
+        </div>
+
+        <button
+          type="button"
+          className="devlens-clear-button"
+          onClick={() => consoleStore.clear()}
+          disabled={records.length === 0}
+        >
+          Clear
+        </button>
+      </div>
+
+      {records.length === 0 ? (
+        <div className="devlens-empty">No console logs captured yet.</div>
+      ) : (
+        <div className="devlens-console-panel">
+          {records.map((record) => (
+            <div
+              key={record.id}
+              className={`devlens-console-row devlens-console-row-${record.level}`}
+            >
+              <div className="devlens-console-meta">
+                <span className={`devlens-console-level devlens-console-level-${record.level}`}>
+                  {record.level}
+                </span>
+
+                <span className="devlens-console-time">{formatConsoleTime(record.timestamp)}</span>
+              </div>
+
+              <pre className="devlens-console-message">{record.message}</pre>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -294,25 +401,22 @@ function OverviewPanel({ requests }: { requests: NetworkRequestRecord[] }) {
 function DevLensTabContent({
   activeTab,
   requests,
+  consoleRecords,
 }: {
   activeTab: DevLensTabId;
   requests: NetworkRequestRecord[];
+  consoleRecords: ConsoleRecord[];
 }) {
   if (activeTab === 'network') {
     return <NetworkPanel requests={requests} />;
   }
 
   if (activeTab === 'overview') {
-    return <OverviewPanel requests={requests} />;
+    return <OverviewPanel requests={requests} consoleRecords={consoleRecords} />;
   }
 
   if (activeTab === 'console') {
-    return (
-      <PlaceholderPanel
-        title="Console"
-        description="Console logs, warnings, errors, and traces will appear here in a future step."
-      />
-    );
+    return <ConsolePanel records={consoleRecords} />;
   }
 
   if (activeTab === 'performance') {
@@ -335,22 +439,24 @@ function DevLensTabContent({
 function DevLensDrawer({
   open,
   requests,
+  consoleRecords,
   onClose,
 }: {
   open: boolean;
   requests: NetworkRequestRecord[];
+  consoleRecords: ConsoleRecord[];
   onClose: () => void;
 }) {
   const [activeTab, setActiveTab] = useState<DevLensTabId>('network');
 
   if (!open) return null;
 
-  const errorCount = requests.filter((request) => request.status === 'error').length;
+  const consoleErrorCount = consoleRecords.filter((record) => record.level === 'error').length;
 
   const tabs: DevLensTab[] = [
     { id: 'overview', label: 'Overview' },
     { id: 'network', label: 'Network', badge: requests.length },
-    { id: 'console', label: 'Console', badge: errorCount },
+    { id: 'console', label: 'Console', badge: consoleErrorCount || consoleRecords.length },
     { id: 'performance', label: 'Performance' },
     { id: 'settings', label: 'Settings' },
   ];
@@ -382,7 +488,11 @@ function DevLensDrawer({
         ))}
       </div>
 
-      <DevLensTabContent activeTab={activeTab} requests={requests} />
+      <DevLensTabContent
+        activeTab={activeTab}
+        requests={requests}
+        consoleRecords={consoleRecords}
+      />
     </div>
   );
 }
@@ -390,14 +500,17 @@ function DevLensDrawer({
 export function DevLensBar({ position = 'bottom-right' }: DevLensBarProps) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [requests, setRequests] = useState<NetworkRequestRecord[]>([]);
+  const [consoleRecords, setConsoleRecords] = useState<ConsoleRecord[]>([]);
 
   useEffect(() => {
     devlensCore.emit('devlens:init', { source: 'ui' });
 
     const unsubscribeStore = networkStore.subscribe(setRequests);
+    const unsubscribeConsoleStore = consoleStore.subscribe(setConsoleRecords);
 
     return () => {
       unsubscribeStore();
+      unsubscribeConsoleStore();
     };
   }, []);
 
@@ -407,7 +520,12 @@ export function DevLensBar({ position = 'bottom-right' }: DevLensBarProps) {
 
   return (
     <div className="devlens-root">
-      <DevLensDrawer open={drawerOpen} requests={requests} onClose={() => setDrawerOpen(false)} />
+      <DevLensDrawer
+        open={drawerOpen}
+        requests={requests}
+        consoleRecords={consoleRecords}
+        onClose={() => setDrawerOpen(false)}
+      />
 
       <div
         className={`devlens-bar devlens-bar-${position}`}
