@@ -2,6 +2,8 @@ import { createDevLensId, type DevLensEvent, type DevLensEventType } from '@code
 
 export * from './network';
 export * from './stores/networkStore';
+export * from './console';
+export * from './stores/consoleStore';
 
 type DevLensListener<TPayload = unknown> = (event: DevLensEvent<TPayload>) => void;
 
