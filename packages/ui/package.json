@@ -16,6 +16,9 @@
     },
     "./styles/devlens.css": "./dist/styles/devlens.css"
   },
+  "sideEffects": [
+    "./dist/styles/devlens.css"
+  ],
   "files": [
     "dist"
   ],
