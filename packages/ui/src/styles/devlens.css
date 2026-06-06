@@ -38,6 +38,32 @@
   --devlens-shadow: 0 18px 60px rgba(15, 23, 42, 0.18);
 }
 
+.devlens-theme-system {
+  --devlens-bg: rgba(12, 12, 24, 0.98);
+  --devlens-bg-soft: rgba(15, 23, 42, 0.38);
+  --devlens-bg-muted: rgba(2, 6, 23, 0.28);
+  --devlens-text: #ffffff;
+  --devlens-text-muted: #94a3b8;
+  --devlens-border: rgba(168, 85, 247, 0.28);
+  --devlens-border-soft: rgba(148, 163, 184, 0.12);
+  --devlens-brand: #c084fc;
+  --devlens-shadow: 0 18px 60px rgba(0, 0, 0, 0.45);
+}
+
+@media (prefers-color-scheme: light) {
+  .devlens-theme-system {
+    --devlens-bg: rgba(255, 255, 255, 0.98);
+    --devlens-bg-soft: rgba(248, 250, 252, 0.92);
+    --devlens-bg-muted: rgba(241, 245, 249, 0.9);
+    --devlens-text: #0f172a;
+    --devlens-text-muted: #64748b;
+    --devlens-border: rgba(124, 58, 237, 0.24);
+    --devlens-border-soft: rgba(15, 23, 42, 0.1);
+    --devlens-brand: #7c3aed;
+    --devlens-shadow: 0 18px 60px rgba(15, 23, 42, 0.18);
+  }
+}
+
 /* ==========================================================================
    Floating Bar
    ========================================================================== */
@@ -86,8 +112,9 @@
   right: 16px;
   bottom: 72px;
   z-index: 999999;
-  width: min(760px, calc(100vw - 32px));
-  max-height: 520px;
+  width: min(100vw, calc(100vw - 10vw));
+  height: min(100vh, calc(100vh - 35vh));
+  min-height: 420px;
   overflow: hidden;
   border-radius: 18px;
   background: var(--devlens-bg);
@@ -95,6 +122,8 @@
   border: 1px solid var(--devlens-border);
   box-shadow: var(--devlens-shadow);
   backdrop-filter: blur(16px);
+  display: flex;
+  flex-direction: column;
 }
 
 .devlens-drawer-header {
@@ -179,7 +208,7 @@
   padding: 0 5px;
   border-radius: 999px;
   background: rgba(239, 68, 68, 0.18);
-  color: #fecaca;
+  color: var(--devlens-text);
   font-size: 10px;
   font-weight: 800;
 }
@@ -237,7 +266,9 @@
    ========================================================================== */
 
 .devlens-panel {
-  max-height: 400px;
+  flex: 1;
+  min-height: 0;
+  max-height: none;
   overflow: auto;
 }
 
@@ -280,7 +311,9 @@
    ========================================================================== */
 
 .devlens-details {
-  max-height: 400px;
+  flex: 1;
+  min-height: 0;
+  max-height: none;
   overflow: auto;
   padding: 14px;
 }
@@ -401,20 +434,23 @@
 
 .devlens-overview {
   padding: 16px;
-  max-height: 400px;
+  flex: 1;
+  min-height: 0;
+  max-height: none;
   overflow: auto;
 }
 
 .devlens-overview-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(8, minmax(0, 1fr));
   gap: 12px;
   margin-bottom: 16px;
 }
 
-.devlens-overview-grid-compact {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  margin-top: -4px;
+.devlens-overview-grid-compact,
+.devlens-overview-grid-dense {
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  margin-top: 0;
 }
 
 .devlens-overview-card {
@@ -425,6 +461,8 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  min-height: 120px;
+  min-width: 0;
 }
 
 .devlens-overview-card-head {
@@ -444,14 +482,18 @@
 
 .devlens-overview-value {
   color: var(--devlens-text);
-  font-size: 24px;
+  font-size: 28px;
   font-weight: 800;
   line-height: 1;
+  margin-top: auto;
+  text-align: center;
 }
 
 .devlens-overview-hint {
   color: var(--devlens-text-muted);
   font-size: 11px;
+  line-height: 1.45;
+  text-align: center;
 }
 
 .devlens-overview-split {
@@ -506,7 +548,9 @@
    ========================================================================== */
 
 .devlens-console {
-  max-height: 400px;
+  flex: 1;
+  min-height: 0;
+  max-height: none;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -550,7 +594,9 @@
 }
 
 .devlens-console-panel {
-  max-height: 356px;
+  flex: 1;
+  min-height: 0;
+  max-height: none;
   overflow: auto;
   padding: 10px;
 }
@@ -626,7 +672,7 @@
   white-space: pre-wrap;
   word-break: break-word;
   color: var(--devlens-text);
-  background: rgba(2, 6, 23, 0.18);
+  background: rgb(195 196 203 / 6%);
   border: 1px solid var(--devlens-border-soft);
   border-radius: 10px;
   font-size: 12px;
@@ -646,7 +692,9 @@
 
 .devlens-performance {
   padding: 16px;
-  max-height: 400px;
+  flex: 1;
+  min-height: 0;
+  max-height: none;
   overflow: auto;
 }
 
@@ -721,7 +769,9 @@
 
 .devlens-settings {
   padding: 16px;
-  max-height: 400px;
+  flex: 1;
+  min-height: 0;
+  max-height: none;
   overflow: auto;
   display: flex;
   flex-direction: column;
@@ -778,9 +828,36 @@
    Responsive Rules
    ========================================================================== */
 
-@media (max-width: 900px) {
+@media (min-width: 1440px) {
+  .devlens-drawer {
+    width: min(70vw, calc(100vw - 10vw));
+    height: min(100vh, calc(100vh - 50vh));
+  }
+
   .devlens-overview-grid,
-  .devlens-overview-grid-compact {
+  .devlens-overview-grid-compact,
+  .devlens-overview-grid-dense {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1439px) {
+  .devlens-overview-grid,
+  .devlens-overview-grid-compact,
+  .devlens-overview-grid-dense {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .devlens-drawer {
+    width: calc(100vw - 30vw);
+    height: min(720px, calc(100vh - 40vh));
+  }
+
+  .devlens-overview-grid,
+  .devlens-overview-grid-compact,
+  .devlens-overview-grid-dense {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -793,7 +870,10 @@
   .devlens-drawer {
     right: 10px;
     bottom: 68px;
-    width: calc(100vw - 20px);
+    width: calc(100vw - 10vw);
+    height: min(720px, calc(100vh - 40vh));
+    min-height: 360px;
+    border-radius: 16px;
   }
 
   .devlens-tabs {
@@ -806,6 +886,7 @@
 
   .devlens-overview-grid,
   .devlens-overview-grid-compact,
+  .devlens-overview-grid-dense,
   .devlens-details-grid {
     grid-template-columns: repeat(1, minmax(0, 1fr));
   }
@@ -860,4 +941,32 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+/* ==========================================================================
+   Scoped Scrollbars
+   Only affects DevLens UI, not the host app
+   ========================================================================== */
+
+.devlens-root * {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(168, 85, 247, 0.45) transparent;
+}
+
+.devlens-root *::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+.devlens-root *::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.devlens-root *::-webkit-scrollbar-thumb {
+  background: rgba(168, 85, 247, 0.38);
+  border-radius: 999px;
+}
+
+.devlens-root *::-webkit-scrollbar-thumb:hover {
+  background: rgba(168, 85, 247, 0.65);
 }
