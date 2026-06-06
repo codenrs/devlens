@@ -3,7 +3,9 @@
 import React from 'react';
 import { DevLens, type DevLensProps } from '@codenrs/devlens-react';
 
-export function NextDevLens(props: DevLensProps) {
+export type NextDevLensProps = DevLensProps;
+
+export function NextDevLens(props: NextDevLensProps) {
   return <DevLens {...props} />;
 }
 

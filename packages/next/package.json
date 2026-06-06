@@ -20,7 +20,7 @@
   ],
   "scripts": {
     "dev": "tsup src/index.tsx --watch",
-    "build": "tsup src/index.tsx --format esm,cjs --dts --clean --external react --external next",
+    "build": "tsup src/index.tsx --format esm,cjs --dts --clean --external react --external react-dom --external next",
     "typecheck": "tsc --noEmit",
     "lint": "echo \"lint next\"",
     "clean": "rimraf dist"
@@ -31,6 +31,8 @@
     "react-dom": ">=18"
   },
   "dependencies": {
-    "@codenrs/devlens-react": "workspace:*"
+    "@codenrs/devlens-react": "workspace:*",
+    "@codenrs/devlens-ui": "workspace:*",
+    "@codenrs/devlens-core": "workspace:*"
   }
 }
