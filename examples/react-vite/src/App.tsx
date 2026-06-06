@@ -1,6 +1,6 @@
 import './App.css';
 import { DevLens } from '@codenrs/devlens-react';
-
+import '@codenrs/devlens-ui/styles/devlens.css';
 function App() {
   const callSuccessApi = async () => {
     await fetch('https://jsonplaceholder.typicode.com/posts/1');
