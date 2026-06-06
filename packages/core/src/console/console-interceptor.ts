@@ -4,26 +4,81 @@ import type { ConsoleLogLevel, ConsoleRecord } from './types';
 
 const CONSOLE_METHODS: ConsoleLogLevel[] = ['log', 'info', 'warn', 'error', 'debug'];
 
+const MAX_CONSOLE_ARG_LENGTH = 3000;
+const MAX_CONSOLE_MESSAGE_LENGTH = 6000;
+
 const originalConsoleMethods = new Map<ConsoleLogLevel, (...args: unknown[]) => void>();
 
 let installed = false;
+let isCapturing = false;
+
+function truncate(value: string, maxLength: number) {
+  if (value.length <= maxLength) return value;
+
+  return `${value.slice(0, maxLength)}… [truncated]`;
+}
+
+function safeStringify(value: unknown) {
+  const seen = new WeakSet<object>();
+
+  try {
+    return JSON.stringify(
+      value,
+      (_key, nestedValue) => {
+        if (typeof nestedValue === 'object' && nestedValue !== null) {
+          if (seen.has(nestedValue)) {
+            return '[Circular]';
+          }
+
+          seen.add(nestedValue);
+        }
+
+        if (typeof nestedValue === 'function') {
+          return `[Function ${nestedValue.name || 'anonymous'}]`;
+        }
+
+        if (typeof nestedValue === 'bigint') {
+          return nestedValue.toString();
+        }
+
+        return nestedValue;
+      },
+      2,
+    );
+  } catch {
+    return String(value);
+  }
+}
+
+function formatConsoleArg(arg: unknown) {
+  if (typeof arg === 'string') return truncate(arg, MAX_CONSOLE_ARG_LENGTH);
+
+  if (arg instanceof Error) {
+    return truncate(arg.stack || arg.message, MAX_CONSOLE_ARG_LENGTH);
+  }
+
+  if (arg === undefined) return 'undefined';
+  if (arg === null) return 'null';
+
+  return truncate(safeStringify(arg), MAX_CONSOLE_ARG_LENGTH);
+}
 
 function formatConsoleMessage(args: unknown[]) {
-  return args
-    .map((arg) => {
-      if (typeof arg === 'string') return arg;
+  const message = args.map(formatConsoleArg).join(' ');
 
-      if (arg instanceof Error) {
-        return arg.stack || arg.message;
-      }
+  return truncate(message, MAX_CONSOLE_MESSAGE_LENGTH);
+}
 
-      try {
-        return JSON.stringify(arg, null, 2);
-      } catch {
-        return String(arg);
-      }
-    })
-    .join(' ');
+function sanitizeArgs(args: unknown[]) {
+  return args.map((arg) => {
+    if (typeof arg === 'string') return truncate(arg, MAX_CONSOLE_ARG_LENGTH);
+
+    if (arg instanceof Error) {
+      return truncate(arg.stack || arg.message, MAX_CONSOLE_ARG_LENGTH);
+    }
+
+    return formatConsoleArg(arg);
+  });
 }
 
 export function installConsoleInterceptor() {
@@ -44,16 +99,27 @@ export function installConsoleInterceptor() {
     originalConsoleMethods.set(level, originalMethod);
 
     const patchedMethod = (...args: unknown[]) => {
-      const record: ConsoleRecord = {
-        id: createDevLensId(`console-${level}`),
-        level,
-        args,
-        message: formatConsoleMessage(args),
-        timestamp: Date.now(),
-      };
-
-      consoleStore.addRecord(record);
       originalMethod(...args);
+
+      if (isCapturing) {
+        return;
+      }
+
+      isCapturing = true;
+
+      try {
+        const record: ConsoleRecord = {
+          id: createDevLensId(`console-${level}`),
+          level,
+          args: sanitizeArgs(args),
+          message: formatConsoleMessage(args),
+          timestamp: Date.now(),
+        };
+
+        consoleStore.addRecord(record);
+      } finally {
+        isCapturing = false;
+      }
     };
 
     Object.defineProperty(console, level, {
@@ -79,4 +145,5 @@ export function uninstallConsoleInterceptor() {
 
   originalConsoleMethods.clear();
   installed = false;
+  isCapturing = false;
 }
