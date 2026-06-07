@@ -5,7 +5,13 @@ export type DevLensBarProps = {
   defaultTheme?: DevLensTheme;
 };
 
-export type DevLensTabId = 'overview' | 'network' | 'console' | 'performance' | 'settings';
+export type DevLensTabId =
+  | 'overview'
+  | 'network'
+  | 'console'
+  | 'performance'
+  | 'routes'
+  | 'settings';
 
 export type DevLensTab = {
   id: DevLensTabId;

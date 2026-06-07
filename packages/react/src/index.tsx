@@ -8,6 +8,8 @@ import {
   uninstallFetchInterceptor,
   uninstallFpsMonitor,
   uninstallLongTaskMonitor,
+  installRouteMonitor,
+  uninstallRouteMonitor,
 } from '@codenrs/devlens-core';
 import { DevLensBar, type DevLensBarProps } from '@codenrs/devlens-ui';
 
@@ -34,12 +36,14 @@ export function DevLens({ enabled, ...props }: DevLensProps) {
     installConsoleInterceptor();
     installFpsMonitor();
     installLongTaskMonitor();
+    installRouteMonitor();
 
     return () => {
       uninstallFetchInterceptor();
       uninstallConsoleInterceptor();
       uninstallFpsMonitor();
       uninstallLongTaskMonitor();
+      uninstallRouteMonitor();
     };
   }, [shouldRender, mounted]);
 
