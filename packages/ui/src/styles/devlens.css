@@ -970,3 +970,90 @@
 .devlens-root *::-webkit-scrollbar-thumb:hover {
   background: rgba(168, 85, 247, 0.65);
 }
+
+/* ==========================================================================
+   Routes Panel
+   ========================================================================== */
+
+.devlens-routes {
+  padding: 16px;
+  flex: 1;
+  min-height: 0;
+  max-height: none;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.devlens-route-card {
+  border: 1px solid var(--devlens-border);
+  background: var(--devlens-bg-soft);
+  border-radius: 14px;
+  padding: 14px;
+}
+
+.devlens-route-current {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--devlens-text);
+  word-break: break-all;
+  line-height: 1.35;
+}
+
+.devlens-route-previous {
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--devlens-text-muted);
+  word-break: break-all;
+}
+
+.devlens-route-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.devlens-route-item {
+  border: 1px solid var(--devlens-border-soft);
+  border-radius: 12px;
+  padding: 10px;
+  background: var(--devlens-bg-muted);
+}
+
+.devlens-route-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.devlens-route-path {
+  min-width: 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--devlens-text);
+  word-break: break-all;
+  line-height: 1.4;
+}
+
+.devlens-route-badge {
+  flex-shrink: 0;
+  border-radius: 999px;
+  padding: 3px 8px;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  background: rgba(168, 85, 247, 0.16);
+  color: var(--devlens-accent);
+  border: 1px solid rgba(168, 85, 247, 0.34);
+}
+
+.devlens-route-meta {
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 11px;
+  color: var(--devlens-text-muted);
+}

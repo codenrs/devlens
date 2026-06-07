@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import type {
   ConsoleRecord,
   NetworkRequestRecord,
   PerformanceSnapshot,
 } from '@codenrs/devlens-core';
+import { routeStore } from '@codenrs/devlens-core';
 import { formatConsoleTime, formatDuration, formatFps } from '../../utils/format';
 import { ConsoleMessage } from '../console/ConsoleMessage';
 import { RequestFlags } from '../network/RequestFlags';
@@ -24,6 +25,11 @@ export function OverviewPanel({
   const slowCount = requests.filter((request) => request.isSlow).length;
   const consoleErrorCount = consoleRecords.filter((record) => record.level === 'error').length;
   const consoleWarnCount = consoleRecords.filter((record) => record.level === 'warn').length;
+  const [routeSnapshot, setRouteSnapshot] = useState(routeStore.getSnapshot());
+
+  useEffect(() => {
+    return routeStore.subscribe(setRouteSnapshot);
+  }, []);
 
   const totalDuration = completedRequests.reduce(
     (sum, request) => sum + (request.duration ?? 0),
@@ -67,6 +73,11 @@ export function OverviewPanel({
           value={formatFps(performanceSnapshot.fps)}
           hint={`Avg ${formatFps(performanceSnapshot.averageFps)} FPS`}
           status={performanceSnapshot.status}
+        />
+        <OverviewMetricCard
+          label="Routes"
+          value={routeSnapshot.history.length}
+          hint="Captured navigations"
         />
       </div>
 

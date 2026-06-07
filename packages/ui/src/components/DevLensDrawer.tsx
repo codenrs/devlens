@@ -11,6 +11,7 @@ import { NetworkPanel } from './network/NetworkPanel';
 import { OverviewPanel } from './overview/OverviewPanel';
 import { PerformancePanel } from './performance/PerformancePanel';
 import { SettingsPanel } from './settings/SettingsPanel';
+import { RoutesPanel } from './routes/RoutesPanel';
 
 function DevLensTabContent({
   activeTab,
@@ -43,6 +44,10 @@ function DevLensTabContent({
 
   if (activeTab === 'performance') {
     return <PerformancePanel performanceSnapshot={performanceSnapshot} />;
+  }
+
+  if (activeTab === 'routes') {
+    return <RoutesPanel />;
   }
 
   return <SettingsPanel theme={theme} onThemeChange={onThemeChange} />;
@@ -78,6 +83,7 @@ export function DevLensDrawer({
     { id: 'network', label: 'Network', badge: requests.length },
     { id: 'console', label: 'Console', badge: consoleErrorCount || consoleRecords.length },
     { id: 'performance', label: 'Performance' },
+    { id: 'routes', label: 'Routes' },
     { id: 'settings', label: 'Settings' },
   ];
 

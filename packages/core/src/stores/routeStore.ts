@@ -14,10 +14,14 @@ const snapshot: RouteSnapshot = {
 
 const listeners = new Set<RouteStoreListener>();
 
+function getNow() {
+  return typeof performance !== 'undefined' ? performance.now() : Date.now();
+}
+
 function createSnapshot(): RouteSnapshot {
   return {
     ...snapshot,
-    history: [...snapshot.history],
+    history: snapshot.history.slice(),
   };
 }
 
@@ -34,7 +38,6 @@ export const routeStore = {
 
   subscribe(listener: RouteStoreListener) {
     listeners.add(listener);
-
     listener(createSnapshot());
 
     return () => {
@@ -49,6 +52,7 @@ export const routeStore = {
     startedAt: number,
   ) {
     const completedAt = Date.now();
+    const duration = Math.max(0, getNow() - startedAt);
 
     const record: RouteRecord = {
       id: createDevLensId('route'),
@@ -57,16 +61,15 @@ export const routeStore = {
       navigationType,
       startedAt,
       completedAt,
-      duration: completedAt - startedAt,
+      duration,
     };
 
     snapshot.previousPath = snapshot.currentPath;
     snapshot.currentPath = pathname;
-
     snapshot.history.unshift(record);
 
     if (snapshot.history.length > MAX_ROUTE_HISTORY) {
-      snapshot.history.pop();
+      snapshot.history.length = MAX_ROUTE_HISTORY;
     }
 
     snapshot.lastUpdatedAt = completedAt;
