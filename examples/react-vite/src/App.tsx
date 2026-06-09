@@ -1,9 +1,19 @@
 import { useState } from 'react';
 import './App.css';
 
-import { DevLens, useDevLensRender } from '@codenrs/devlens-react';
+import { DevLens, DevLensErrorBoundary, useDevLensRender } from '@codenrs/devlens-react';
 
 import '@codenrs/devlens-ui/styles/devlens.css';
+
+function BrokenComponent({ shouldBreak }: { shouldBreak: boolean }) {
+  useDevLensRender('BrokenComponent');
+
+  if (shouldBreak) {
+    throw new Error('DevLens test error from BrokenComponent');
+  }
+
+  return <p>Broken component is safe now.</p>;
+}
 
 function DemoCounterCard() {
   useDevLensRender('DemoCounterCard');
@@ -23,6 +33,8 @@ function DemoCounterCard() {
 
 function App() {
   useDevLensRender('App');
+
+  const [shouldBreak, setShouldBreak] = useState(false);
 
   const callSuccessApi = async () => {
     await fetch('https://jsonplaceholder.typicode.com/posts/1');
@@ -57,6 +69,16 @@ function App() {
         </button>
 
         <DemoCounterCard />
+
+        <div style={{ marginTop: 24 }}>
+          <h2>Error Boundary Test</h2>
+
+          <button onClick={() => setShouldBreak(true)}>Trigger React Error</button>
+
+          <DevLensErrorBoundary fallback={<p>Component crashed safely.</p>}>
+            <BrokenComponent shouldBreak={shouldBreak} />
+          </DevLensErrorBoundary>
+        </div>
       </div>
 
       <DevLens />

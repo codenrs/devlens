@@ -10,6 +10,8 @@ export * from './router';
 export * from './stores/routeStore';
 export * from './render';
 export * from './stores/renderStore';
+export * from './errors';
+export * from './stores/errorStore';
 
 type DevLensListener<TPayload = unknown> = (event: DevLensEvent<TPayload>) => void;
 

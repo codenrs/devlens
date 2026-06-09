@@ -11,6 +11,8 @@ export type DevLensTabId =
   | 'console'
   | 'performance'
   | 'routes'
+  | 'render'
+  | 'errors'
   | 'settings';
 
 export type DevLensTab = {

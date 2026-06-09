@@ -12,6 +12,8 @@ import { OverviewPanel } from './overview/OverviewPanel';
 import { PerformancePanel } from './performance/PerformancePanel';
 import { SettingsPanel } from './settings/SettingsPanel';
 import { RoutesPanel } from './routes/RoutesPanel';
+import { RenderPanel } from './render/RenderPanel';
+import { ErrorPanel } from './errors/ErrorPanel';
 
 function DevLensTabContent({
   activeTab,
@@ -50,6 +52,13 @@ function DevLensTabContent({
     return <RoutesPanel />;
   }
 
+  if (activeTab === 'render') {
+    return <RenderPanel />;
+  }
+
+  if (activeTab === 'errors') {
+    return <ErrorPanel />;
+  }
   return <SettingsPanel theme={theme} onThemeChange={onThemeChange} />;
 }
 
@@ -84,6 +93,8 @@ export function DevLensDrawer({
     { id: 'console', label: 'Console', badge: consoleErrorCount || consoleRecords.length },
     { id: 'performance', label: 'Performance' },
     { id: 'routes', label: 'Routes' },
+    { id: 'render', label: 'Render' },
+    { id: 'errors', label: 'Errors' },
     { id: 'settings', label: 'Settings' },
   ];
 

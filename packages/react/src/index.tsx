@@ -13,6 +13,7 @@ import {
 } from '@codenrs/devlens-core';
 import { DevLensBar, type DevLensBarProps } from '@codenrs/devlens-ui';
 export * from './useDevLensRender';
+export * from './DevLensErrorBoundary';
 export type { DevLensBarProps };
 
 export type DevLensProps = DevLensBarProps & {
