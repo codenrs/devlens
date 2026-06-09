@@ -1,7 +1,7 @@
 {
   "name": "@codenrs/devlens-shared",
-  "version": "0.0.0",
-  "private": true,
+  "private": false,
+  "version": "0.1.0-alpha.1",
   "description": "Shared types and utilities for DevLens.",
   "license": "AGPL-3.0-only",
   "type": "module",
@@ -15,8 +15,30 @@
       "require": "./dist/index.cjs"
     }
   },
+  "sideEffects": false,
   "files": [
     "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/codenrs/devlens.git"
+  },
+  "homepage": "https://github.com/codenrs/devlens",
+  "bugs": {
+    "url": "https://github.com/codenrs/devlens/issues"
+  },
+  "keywords": [
+    "typescript",
+    "shared",
+    "utilities",
+    "debugging",
+    "developer-tools",
+    "codenrs",
+    "devlens",
+    "nrshagor"
   ],
   "scripts": {
     "dev": "tsup src/index.ts --watch",

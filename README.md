@@ -32,19 +32,19 @@ Created by **Noore Rabbi Shagor** under **CodeNRS**.
 Using pnpm:
 
 ```bash
-pnpm add @codenrs/devlens-react @codenrs/devlens-ui
+pnpm add @codenrs/devlens-react
 ```
 
 Using npm:
 
 ```bash
-npm install @codenrs/devlens-react @codenrs/devlens-ui
+npm install @codenrs/devlens-react
 ```
 
 Using yarn:
 
 ```bash
-yarn add @codenrs/devlens-react @codenrs/devlens-ui
+yarn add @codenrs/devlens-react
 ```
 
 ### Next.js
@@ -52,26 +52,26 @@ yarn add @codenrs/devlens-react @codenrs/devlens-ui
 Using pnpm:
 
 ```bash
-pnpm add @codenrs/devlens-next @codenrs/devlens-ui
+pnpm add @codenrs/devlens-next
 ```
 
 Using npm:
 
 ```bash
-npm install @codenrs/devlens-next @codenrs/devlens-ui
+npm install @codenrs/devlens-next
 ```
 
 Using yarn:
 
 ```bash
-yarn add @codenrs/devlens-next @codenrs/devlens-ui
+yarn add @codenrs/devlens-next
 ```
 
 ## React Usage
 
 ```tsx
 import { DevLens } from '@codenrs/devlens-react';
-import '@codenrs/devlens-ui/styles/devlens.css';
+import '@codenrs/devlens-react/styles.css';
 
 export function App() {
   return (
@@ -91,7 +91,7 @@ Create a client component:
 'use client';
 
 import { NextDevLens } from '@codenrs/devlens-next';
-import '@codenrs/devlens-ui/styles/devlens.css';
+import '@codenrs/devlens-next/styles.css';
 
 export function DevLensClient() {
   return <NextDevLens />;

@@ -4,53 +4,53 @@ DevLens is a lightweight debugging and inspection toolkit for React and Next.js 
 
 It adds a floating developer debugbar and expandable inspector drawer directly inside your application during development.
 
-## Install
+## Installation
 
 ### React
-
-Using npm:
-
-```bash
-npm install @codenrs/devlens-react @codenrs/devlens-ui
-```
 
 Using pnpm:
 
 ```bash
-pnpm add @codenrs/devlens-react @codenrs/devlens-ui
+pnpm add @codenrs/devlens-react
+```
+
+Using npm:
+
+```bash
+npm install @codenrs/devlens-react
 ```
 
 Using yarn:
 
 ```bash
-yarn add @codenrs/devlens-react @codenrs/devlens-ui
+yarn add @codenrs/devlens-react
 ```
 
 ### Next.js
 
-Using npm:
-
-```bash
-npm install @codenrs/devlens-next @codenrs/devlens-ui
-```
-
 Using pnpm:
 
 ```bash
-pnpm add @codenrs/devlens-next @codenrs/devlens-ui
+pnpm add @codenrs/devlens-next
+```
+
+Using npm:
+
+```bash
+npm install @codenrs/devlens-next
 ```
 
 Using yarn:
 
 ```bash
-yarn add @codenrs/devlens-next @codenrs/devlens-ui
+yarn add @codenrs/devlens-next
 ```
 
 ## Basic React Setup
 
 ```tsx
 import { DevLens } from '@codenrs/devlens-react';
-import '@codenrs/devlens-ui/styles/devlens.css';
+import '@codenrs/devlens-react/styles.css';
 
 export function App() {
   return (

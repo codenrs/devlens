@@ -3,7 +3,7 @@ import './App.css';
 
 import { DevLens, DevLensErrorBoundary, useDevLensRender } from '@codenrs/devlens-react';
 
-import '@codenrs/devlens-ui/styles/devlens.css';
+import '@codenrs/devlens-react/styles.css';
 
 function BrokenComponent({ shouldBreak }: { shouldBreak: boolean }) {
   useDevLensRender('BrokenComponent');

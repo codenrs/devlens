@@ -10,7 +10,7 @@ import { DevLens } from '@codenrs/devlens-react';
 
 ```tsx
 import { DevLens } from '@codenrs/devlens-react';
-import '@codenrs/devlens-ui/styles/devlens.css';
+import '@codenrs/devlens-react/styles.css';
 
 function App() {
   return (

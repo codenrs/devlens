@@ -18,19 +18,19 @@ DevLens supports:
 Using npm:
 
 ```bash
-npm install @codenrs/devlens-next @codenrs/devlens-ui
+npm install @codenrs/devlens-next
 ```
 
 Using pnpm:
 
 ```bash
-pnpm add @codenrs/devlens-next @codenrs/devlens-ui
+pnpm add @codenrs/devlens-next
 ```
 
 Using yarn:
 
 ```bash
-yarn add @codenrs/devlens-next @codenrs/devlens-ui
+yarn add @codenrs/devlens-next
 ```
 
 ## App Router Setup
@@ -43,7 +43,7 @@ Example:
 'use client';
 
 import { NextDevLens } from '@codenrs/devlens-next';
-import '@codenrs/devlens-ui/styles/devlens.css';
+import '@codenrs/devlens-next/styles.css';
 
 export function DevLensClient() {
   return <NextDevLens />;
@@ -76,7 +76,7 @@ Inside `_app.tsx`:
 import type { AppProps } from 'next/app';
 
 import { NextDevLens } from '@codenrs/devlens-next';
-import '@codenrs/devlens-ui/styles/devlens.css';
+import '@codenrs/devlens-next/styles.css';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (

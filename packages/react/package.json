@@ -1,7 +1,7 @@
 {
   "name": "@codenrs/devlens-react",
-  "version": "0.0.0",
-  "private": true,
+  "private": false,
+  "version": "0.1.0-alpha.1",
   "description": "React adapter for DevLens.",
   "license": "AGPL-3.0-only",
   "type": "module",
@@ -13,11 +13,39 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
-    }
+    },
+    "./styles.css": "./src/styles.css"
   },
-  "sideEffects": false,
+  "sideEffects": [
+    "./src/styles.css"
+  ],
   "files": [
-    "dist"
+    "dist",
+    "src/styles.css"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/codenrs/devlens.git"
+  },
+  "homepage": "https://github.com/codenrs/devlens",
+  "bugs": {
+    "url": "https://github.com/codenrs/devlens/issues"
+  },
+  "keywords": [
+    "react",
+    "debugging",
+    "devtools",
+    "performance",
+    "monitoring",
+    "debugbar",
+    "developer-tools",
+    "frontend",
+    "codenrs",
+    "devlens",
+    "nrshagor"
   ],
   "scripts": {
     "dev": "tsup src/index.tsx --watch",

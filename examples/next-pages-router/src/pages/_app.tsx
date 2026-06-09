@@ -1,4 +1,4 @@
-import '@codenrs/devlens-ui/styles/devlens.css';
+import '@codenrs/devlens-next/styles.css';
 import '@/styles/globals.css';
 import { NextDevLens } from '@codenrs/devlens-next';
 import type { AppProps } from 'next/app';
