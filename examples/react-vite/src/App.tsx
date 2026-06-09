@@ -69,6 +69,20 @@ function App() {
         </button>
 
         <DemoCounterCard />
+        <button
+          onClick={() => {
+            throw new Error('Runtime crash test');
+          }}
+        >
+          Runtime Error Test
+        </button>
+        <button
+          onClick={() => {
+            Promise.reject(new Error('Unhandled promise rejection test'));
+          }}
+        >
+          Promise Rejection Test
+        </button>
 
         <div style={{ marginTop: 24 }}>
           <h2>Error Boundary Test</h2>

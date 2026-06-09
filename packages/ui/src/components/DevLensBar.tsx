@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   consoleStore,
   devlensCore,
   networkStore,
   performanceStore,
+  renderStore,
   type ConsoleRecord,
   type NetworkRequestRecord,
   type PerformanceSnapshot,
+  type RenderSnapshot,
 } from '@codenrs/devlens-core';
 import type { DevLensBarProps, DevLensTabId, DevLensTheme } from '../types';
 import { readDevLensUiState, writeDevLensUiState } from '../utils/storage';
@@ -23,6 +25,10 @@ export function DevLensBar({
   const [theme, setTheme] = useState<DevLensTheme>(storedUiState.theme ?? defaultTheme);
   const [requests, setRequests] = useState<NetworkRequestRecord[]>([]);
   const [consoleRecords, setConsoleRecords] = useState<ConsoleRecord[]>([]);
+  const [renderSnapshot, setRenderSnapshot] = useState<RenderSnapshot>({
+    records: [],
+    lastUpdatedAt: Date.now(),
+  });
   const [performanceSnapshot, setPerformanceSnapshot] = useState<PerformanceSnapshot>({
     fps: 0,
     averageFps: 0,
@@ -40,17 +46,24 @@ export function DevLensBar({
     const unsubscribeStore = networkStore.subscribe(setRequests);
     const unsubscribeConsoleStore = consoleStore.subscribe(setConsoleRecords);
     const unsubscribePerformanceStore = performanceStore.subscribe(setPerformanceSnapshot);
+    const unsubscribeRenderStore = renderStore.subscribe(setRenderSnapshot);
 
     return () => {
       unsubscribeStore();
       unsubscribeConsoleStore();
       unsubscribePerformanceStore();
+      unsubscribeRenderStore();
     };
   }, []);
 
   const apiCount = requests.length;
   const errorCount = requests.filter((request) => request.status === 'error').length;
   const slowCount = requests.filter((request) => request.isSlow).length;
+
+  const renderCount = useMemo(
+    () => renderSnapshot.records.reduce((sum, record) => sum + record.renderCount, 0),
+    [renderSnapshot.records],
+  );
 
   const handleDrawerToggle = () => {
     setDrawerOpen((value) => {
@@ -94,6 +107,7 @@ export function DevLensBar({
         <span>API {apiCount}</span>
         <span>Slow {slowCount}</span>
         <span>Errors {errorCount}</span>
+        <span>Render {renderCount}</span>
         <span>FPS {performanceSnapshot.fps || '--'}</span>
       </div>
     </div>

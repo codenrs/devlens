@@ -4,14 +4,17 @@ import {
   installFetchInterceptor,
   installFpsMonitor,
   installLongTaskMonitor,
+  installRouteMonitor,
+  installRuntimeErrorMonitor,
   uninstallConsoleInterceptor,
   uninstallFetchInterceptor,
   uninstallFpsMonitor,
   uninstallLongTaskMonitor,
-  installRouteMonitor,
   uninstallRouteMonitor,
+  uninstallRuntimeErrorMonitor,
 } from '@codenrs/devlens-core';
 import { DevLensBar, type DevLensBarProps } from '@codenrs/devlens-ui';
+
 export * from './useDevLensRender';
 export * from './DevLensErrorBoundary';
 export type { DevLensBarProps };
@@ -38,6 +41,7 @@ export function DevLens({ enabled, ...props }: DevLensProps) {
     installFpsMonitor();
     installLongTaskMonitor();
     installRouteMonitor();
+    installRuntimeErrorMonitor();
 
     return () => {
       uninstallFetchInterceptor();
@@ -45,6 +49,7 @@ export function DevLens({ enabled, ...props }: DevLensProps) {
       uninstallFpsMonitor();
       uninstallLongTaskMonitor();
       uninstallRouteMonitor();
+      uninstallRuntimeErrorMonitor();
     };
   }, [shouldRender, mounted]);
 
