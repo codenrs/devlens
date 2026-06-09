@@ -12,7 +12,7 @@ import {
   uninstallRouteMonitor,
 } from '@codenrs/devlens-core';
 import { DevLensBar, type DevLensBarProps } from '@codenrs/devlens-ui';
-
+export * from './useDevLensRender';
 export type { DevLensBarProps };
 
 export type DevLensProps = DevLensBarProps & {

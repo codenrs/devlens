@@ -1,7 +1,29 @@
+import { useState } from 'react';
 import './App.css';
-import { DevLens } from '@codenrs/devlens-react';
+
+import { DevLens, useDevLensRender } from '@codenrs/devlens-react';
+
 import '@codenrs/devlens-ui/styles/devlens.css';
+
+function DemoCounterCard() {
+  useDevLensRender('DemoCounterCard');
+
+  const [count, setCount] = useState(0);
+
+  return (
+    <div style={{ marginTop: 24 }}>
+      <h2>Render Tracking Test</h2>
+
+      <p>Count: {count}</p>
+
+      <button onClick={() => setCount((value) => value + 1)}>Trigger Re-render</button>
+    </div>
+  );
+}
+
 function App() {
+  useDevLensRender('App');
+
   const callSuccessApi = async () => {
     await fetch('https://jsonplaceholder.typicode.com/posts/1');
   };
@@ -33,6 +55,8 @@ function App() {
         <button onClick={callFailedApi} style={{ marginLeft: 12 }}>
           Call Failed API
         </button>
+
+        <DemoCounterCard />
       </div>
 
       <DevLens />

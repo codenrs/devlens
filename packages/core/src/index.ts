@@ -6,9 +6,10 @@ export * from './console';
 export * from './stores/consoleStore';
 export * from './performance';
 export * from './stores/performanceStore';
-
 export * from './router';
 export * from './stores/routeStore';
+export * from './render';
+export * from './stores/renderStore';
 
 type DevLensListener<TPayload = unknown> = (event: DevLensEvent<TPayload>) => void;
 
