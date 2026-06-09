@@ -1,7 +1,7 @@
 {
   "name": "@codenrs/devlens-next",
   "private": false,
-  "version": "0.1.0-alpha.2",
+  "version": "0.1.0-alpha.3",
   "description": "Next.js adapter for DevLens.",
   "license": "AGPL-3.0-only",
   "type": "module",
@@ -61,8 +61,8 @@
     "react-dom": ">=18"
   },
   "dependencies": {
-    "@codenrs/devlens-react": "workspace:*",
-    "@codenrs/devlens-ui": "workspace:*",
-    "@codenrs/devlens-core": "workspace:*"
+    "@codenrs/devlens-react": "0.1.0-alpha.3",
+    "@codenrs/devlens-ui": "0.1.0-alpha.3",
+    "@codenrs/devlens-core": "0.1.0-alpha.3"
   }
 }

@@ -1,7 +1,7 @@
 {
   "name": "@codenrs/devlens-core",
   "private": false,
-  "version": "0.1.0-alpha.2",
+  "version": "0.1.0-alpha.3",
   "description": "Core runtime engine for DevLens.",
   "license": "AGPL-3.0-only",
   "type": "module",
@@ -51,6 +51,6 @@
     "clean": "rimraf dist"
   },
   "dependencies": {
-    "@codenrs/devlens-shared": "workspace:*"
+    "@codenrs/devlens-shared": "0.1.0-alpha.3"
   }
 }
