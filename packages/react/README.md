@@ -1,32 +1,48 @@
 # @codenrs/devlens-react
 
-React adapter for DevLens.
+Modern debugging and performance inspection toolkit for React applications.
 
-DevLens is a modern Laravel Debugbar-inspired debugging and performance inspection toolkit for React applications.
+DevLens provides a lightweight in-app developer inspector inspired by Laravel Debugbar.
 
-## Installation
+Monitor:
+
+- API requests
+- console logs
+- runtime errors
+- component renders
+- route changes
+- FPS and long tasks
+- application performance
+
+---
+
+# Installation
 
 Using npm:
 
-```bash
+```bash id="v3c8mx"
 npm install @codenrs/devlens-react
 ```
 
 Using pnpm:
 
-```bash
+```bash id="p4t7qa"
 pnpm add @codenrs/devlens-react
 ```
 
 Using yarn:
 
-```bash
+```bash id="y8m1rq"
 yarn add @codenrs/devlens-react
 ```
 
-## Usage
+---
 
-```tsx
+# Setup
+
+Add DevLens inside your main application component.
+
+```tsx id="d6k2ns"
 import { DevLens } from '@codenrs/devlens-react';
 import '@codenrs/devlens-react/styles.css';
 
@@ -40,9 +56,13 @@ export function App() {
 }
 ```
 
-## Render Tracking
+---
 
-```tsx
+# Render Tracking
+
+Render tracking is opt-in to keep DevLens lightweight.
+
+```tsx id="z9f4pm"
 import { useDevLensRender } from '@codenrs/devlens-react';
 
 function ProductCard() {
@@ -52,9 +72,11 @@ function ProductCard() {
 }
 ```
 
-## Error Boundary
+---
 
-```tsx
+# Error Boundary Tracking
+
+```tsx id="q7w1vt"
 import { DevLensErrorBoundary } from '@codenrs/devlens-react';
 
 export function App() {
@@ -66,20 +88,25 @@ export function App() {
 }
 ```
 
-## Features
+---
 
-- Network monitoring
-- Console tracking
+# Features
+
+- Network request monitoring
+- Console log tracking
+- Runtime error monitoring
 - FPS monitoring
-- Route tracking
-- Render tracking
-- Runtime error tracking
+- Long task monitoring
+- Route navigation tracking
+- Component render tracking
 - Expandable debug drawer
-- Dark and light themes
+- Dark, light, and system themes
 - Development-only runtime safety
 
-## License
+---
+
+# License
 
 AGPL-3.0-only
 
-Created by Noore Rabbi Shagor under CodeNRS.
+Created by **Noore Rabbi Shagor** under **CodeNRS**.

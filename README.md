@@ -4,30 +4,44 @@
 
 DevLens is a modern Laravel Debugbar-inspired debugging and performance inspection toolkit for React and Next.js applications.
 
-It gives frontend developers a lightweight in-app debug drawer for monitoring APIs, console logs, performance, routes, renders, and runtime errors.
+It provides a lightweight in-app developer inspector for monitoring:
+
+- API requests
+- console logs
+- runtime errors
+- component renders
+- route changes
+- FPS and long tasks
+- application performance
 
 Created by **Noore Rabbi Shagor** under **CodeNRS**.
 
-## Features
+---
+
+# Features
 
 - Floating developer debugbar
 - Expandable inspector drawer
 - Network request monitoring
 - Console log/warn/error tracking
+- Runtime error monitoring
 - FPS and long task monitoring
 - Route navigation tracking
 - Component render tracking
 - React error boundary tracking
 - React support
-- Next.js App Router and Pages Router support
+- Next.js App Router support
+- Next.js Pages Router support
 - Dark, light, and system themes
-- Development-first and lightweight runtime design
+- Development-first lightweight runtime design
 - Zero configuration setup
-- Development-only runtime safety
+- Safe development-only runtime behavior
 
-## Installation
+---
 
-### React
+# Installation
+
+## React
 
 Using pnpm:
 
@@ -47,7 +61,9 @@ Using yarn:
 yarn add @codenrs/devlens-react
 ```
 
-### Next.js
+---
+
+## Next.js
 
 Using pnpm:
 
@@ -67,7 +83,11 @@ Using yarn:
 yarn add @codenrs/devlens-next
 ```
 
-## React Usage
+---
+
+# React Setup
+
+Add DevLens inside your main application component.
 
 ```tsx
 import { DevLens } from '@codenrs/devlens-react';
@@ -83,9 +103,17 @@ export function App() {
 }
 ```
 
-## Next.js Usage
+---
 
-Create a client component:
+# Next.js Setup
+
+## 1. Create a client component
+
+Create:
+
+```txt
+components/devlens-client.tsx
+```
 
 ```tsx
 'use client';
@@ -98,9 +126,48 @@ export function DevLensClient() {
 }
 ```
 
-Then use it in your layout.
+---
 
-## Render Tracking
+## 2. Add DevLens to your layout
+
+### App Router (`app/layout.tsx`)
+
+```tsx
+import { DevLensClient } from '@/components/devlens-client';
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <body>
+        {children}
+        <DevLensClient />
+      </body>
+    </html>
+  );
+}
+```
+
+---
+
+### Pages Router (`pages/_app.tsx`)
+
+```tsx
+import type { AppProps } from 'next/app';
+import { DevLensClient } from '@/components/devlens-client';
+
+export default function App({ Component, pageProps }: AppProps) {
+  return (
+    <>
+      <Component {...pageProps} />
+      <DevLensClient />
+    </>
+  );
+}
+```
+
+---
+
+# Render Tracking
 
 Render tracking is opt-in to keep DevLens lightweight.
 
@@ -114,7 +181,9 @@ function ProductCard() {
 }
 ```
 
-## Error Boundary Tracking
+---
+
+# Error Boundary Tracking
 
 ```tsx
 import { DevLensErrorBoundary } from '@codenrs/devlens-react';
@@ -128,7 +197,9 @@ export function App() {
 }
 ```
 
-## Philosophy
+---
+
+# Philosophy
 
 DevLens should be:
 
@@ -140,6 +211,8 @@ DevLens should be:
 
 DevLens should never feel bloated, intrusive, or difficult to set up.
 
-## License
+---
+
+# License
 
 AGPL-3.0-only
