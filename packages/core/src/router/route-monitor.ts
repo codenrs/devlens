@@ -1,6 +1,7 @@
 import { routeStore } from '../stores/routeStore';
 
 let installed = false;
+let installCount = 0;
 
 let originalPushState: History['pushState'] | null = null;
 let originalReplaceState: History['replaceState'] | null = null;
@@ -22,7 +23,13 @@ function handleHashChange() {
 }
 
 export function installRouteMonitor() {
-  if (installed || typeof window === 'undefined') {
+  if (typeof window === 'undefined') {
+    return;
+  }
+
+  installCount += 1;
+
+  if (installed) {
     return;
   }
 
@@ -52,6 +59,12 @@ export function uninstallRouteMonitor() {
     return;
   }
 
+  installCount = Math.max(0, installCount - 1);
+
+  if (installCount > 0) {
+    return;
+  }
+
   if (originalPushState) {
     window.history.pushState = originalPushState;
   }
@@ -63,5 +76,7 @@ export function uninstallRouteMonitor() {
   window.removeEventListener('popstate', handlePopState);
   window.removeEventListener('hashchange', handleHashChange);
 
+  originalPushState = null;
+  originalReplaceState = null;
   installed = false;
 }

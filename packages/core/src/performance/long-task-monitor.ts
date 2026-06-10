@@ -4,9 +4,16 @@ import type { LongTaskRecord } from './types';
 
 let observer: PerformanceObserver | null = null;
 let installed = false;
+let installCount = 0;
 
 export function installLongTaskMonitor() {
-  if (!isBrowser() || installed || typeof PerformanceObserver === 'undefined') {
+  if (!isBrowser() || typeof PerformanceObserver === 'undefined') {
+    return;
+  }
+
+  installCount += 1;
+
+  if (installed) {
     return;
   }
 
@@ -30,11 +37,18 @@ export function installLongTaskMonitor() {
   } catch {
     observer = null;
     installed = false;
+    installCount = Math.max(0, installCount - 1);
   }
 }
 
 export function uninstallLongTaskMonitor() {
   if (!installed) {
+    return;
+  }
+
+  installCount = Math.max(0, installCount - 1);
+
+  if (installCount > 0) {
     return;
   }
 

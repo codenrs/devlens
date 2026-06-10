@@ -2,10 +2,12 @@ import React, { useEffect, useMemo, useState } from 'react';
 import {
   consoleStore,
   devlensCore,
+  errorStore,
   networkStore,
   performanceStore,
   renderStore,
   type ConsoleRecord,
+  type DevLensErrorSnapshot,
   type NetworkRequestRecord,
   type PerformanceSnapshot,
   type RenderSnapshot,
@@ -25,6 +27,10 @@ export function DevLensBar({
   const [theme, setTheme] = useState<DevLensTheme>(storedUiState.theme ?? defaultTheme);
   const [requests, setRequests] = useState<NetworkRequestRecord[]>([]);
   const [consoleRecords, setConsoleRecords] = useState<ConsoleRecord[]>([]);
+  const [errorSnapshot, setErrorSnapshot] = useState<DevLensErrorSnapshot>({
+    records: [],
+    lastUpdatedAt: Date.now(),
+  });
   const [renderSnapshot, setRenderSnapshot] = useState<RenderSnapshot>({
     records: [],
     lastUpdatedAt: Date.now(),
@@ -47,17 +53,21 @@ export function DevLensBar({
     const unsubscribeConsoleStore = consoleStore.subscribe(setConsoleRecords);
     const unsubscribePerformanceStore = performanceStore.subscribe(setPerformanceSnapshot);
     const unsubscribeRenderStore = renderStore.subscribe(setRenderSnapshot);
+    const unsubscribeErrorStore = errorStore.subscribe(setErrorSnapshot);
 
     return () => {
       unsubscribeStore();
       unsubscribeConsoleStore();
       unsubscribePerformanceStore();
       unsubscribeRenderStore();
+      unsubscribeErrorStore();
     };
   }, []);
 
   const apiCount = requests.length;
-  const errorCount = requests.filter((request) => request.status === 'error').length;
+  const apiErrorCount = requests.filter((request) => request.status === 'error').length;
+  const runtimeErrorCount = errorSnapshot.records.length;
+  const totalErrorCount = apiErrorCount + runtimeErrorCount;
   const slowCount = requests.filter((request) => request.isSlow).length;
 
   const renderCount = useMemo(
@@ -95,6 +105,7 @@ export function DevLensBar({
         requests={requests}
         consoleRecords={consoleRecords}
         performanceSnapshot={performanceSnapshot}
+        runtimeErrorCount={runtimeErrorCount}
         theme={theme}
         activeTab={activeTab}
         onActiveTabChange={handleTabChange}
@@ -106,7 +117,7 @@ export function DevLensBar({
         <strong className="devlens-brand">DevLens</strong>
         <span>API {apiCount}</span>
         <span>Slow {slowCount}</span>
-        <span>Errors {errorCount}</span>
+        <span>Errors {totalErrorCount}</span>
         <span>Render {renderCount}</span>
         <span>FPS {performanceSnapshot.fps || '--'}</span>
       </div>

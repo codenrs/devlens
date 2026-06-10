@@ -59,6 +59,7 @@ function DevLensTabContent({
   if (activeTab === 'errors') {
     return <ErrorPanel />;
   }
+
   return <SettingsPanel theme={theme} onThemeChange={onThemeChange} />;
 }
 
@@ -67,6 +68,7 @@ export function DevLensDrawer({
   requests,
   consoleRecords,
   performanceSnapshot,
+  runtimeErrorCount,
   theme,
   activeTab,
   onActiveTabChange,
@@ -77,6 +79,7 @@ export function DevLensDrawer({
   requests: NetworkRequestRecord[];
   consoleRecords: ConsoleRecord[];
   performanceSnapshot: PerformanceSnapshot;
+  runtimeErrorCount: number;
   theme: DevLensTheme;
   activeTab: DevLensTabId;
   onActiveTabChange: (tab: DevLensTabId) => void;
@@ -86,6 +89,7 @@ export function DevLensDrawer({
   if (!open) return null;
 
   const consoleErrorCount = consoleRecords.filter((record) => record.level === 'error').length;
+  const apiErrorCount = requests.filter((request) => request.status === 'error').length;
 
   const tabs: DevLensTab[] = [
     { id: 'overview', label: 'Overview' },
@@ -94,7 +98,7 @@ export function DevLensDrawer({
     { id: 'performance', label: 'Performance' },
     { id: 'routes', label: 'Routes' },
     { id: 'render', label: 'Render' },
-    { id: 'errors', label: 'Errors' },
+    { id: 'errors', label: 'Errors', badge: apiErrorCount + runtimeErrorCount },
     { id: 'settings', label: 'Settings' },
   ];
 

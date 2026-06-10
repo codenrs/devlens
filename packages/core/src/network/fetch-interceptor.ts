@@ -7,16 +7,32 @@ const SLOW_REQUEST_THRESHOLD_MS = 300;
 
 let originalFetch: typeof fetch | null = null;
 let installed = false;
+let installCount = 0;
 
 export function installFetchInterceptor() {
-  if (!isBrowser() || installed || typeof window.fetch !== 'function') {
+  if (!isBrowser() || typeof window.fetch !== 'function') {
     return;
   }
 
-  originalFetch = window.fetch.bind(window);
+  installCount += 1;
+
+  if (installed) {
+    return;
+  }
+
+  originalFetch = window.fetch;
   installed = true;
 
-  window.fetch = async (input: RequestInfo | URL, init?: RequestInit) => {
+  window.fetch = async function devlensFetchInterceptor(
+    input: RequestInfo | URL,
+    init?: RequestInit,
+  ) {
+    const activeFetch = originalFetch;
+
+    if (!activeFetch) {
+      return fetch(input, init);
+    }
+
     const id = createDevLensId('fetch');
     const startTime = performance.now();
 
@@ -37,7 +53,7 @@ export function installFetchInterceptor() {
     devlensCore.emit('network:request', pendingRecord);
 
     try {
-      const response = await originalFetch!(input, init);
+      const response = await activeFetch.call(window, input, init);
       const endTime = performance.now();
       const duration = Math.round(endTime - startTime);
 
@@ -83,11 +99,20 @@ export function installFetchInterceptor() {
 }
 
 export function uninstallFetchInterceptor() {
-  if (!installed || !originalFetch) {
+  if (!installed) {
     return;
   }
 
-  window.fetch = originalFetch;
+  installCount = Math.max(0, installCount - 1);
+
+  if (installCount > 0) {
+    return;
+  }
+
+  if (originalFetch) {
+    window.fetch = originalFetch;
+  }
+
   originalFetch = null;
   installed = false;
 }

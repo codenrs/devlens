@@ -1,6 +1,7 @@
 import { errorStore } from '../stores/errorStore';
 
 let installed = false;
+let installCount = 0;
 
 let previousOnError: OnErrorEventHandler | null = null;
 let previousOnUnhandledRejection: ((event: PromiseRejectionEvent) => void) | null = null;
@@ -55,7 +56,13 @@ function handleUnhandledRejection(event: PromiseRejectionEvent) {
 }
 
 export function installRuntimeErrorMonitor() {
-  if (installed || typeof window === 'undefined') {
+  if (typeof window === 'undefined') {
+    return;
+  }
+
+  installCount += 1;
+
+  if (installed) {
     return;
   }
 
@@ -70,6 +77,12 @@ export function installRuntimeErrorMonitor() {
 
 export function uninstallRuntimeErrorMonitor() {
   if (!installed || typeof window === 'undefined') {
+    return;
+  }
+
+  installCount = Math.max(0, installCount - 1);
+
+  if (installCount > 0) {
     return;
   }
 

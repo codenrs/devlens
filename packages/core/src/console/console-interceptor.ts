@@ -10,12 +10,13 @@ const MAX_CONSOLE_MESSAGE_LENGTH = 6000;
 const originalConsoleMethods = new Map<ConsoleLogLevel, (...args: unknown[]) => void>();
 
 let installed = false;
+let installCount = 0;
 let isCapturing = false;
 
 function truncate(value: string, maxLength: number) {
   if (value.length <= maxLength) return value;
 
-  return `${value.slice(0, maxLength)}… [truncated]`;
+  return `${value.slice(0, maxLength)}... [truncated]`;
 }
 
 function safeStringify(value: unknown) {
@@ -82,7 +83,13 @@ function sanitizeArgs(args: unknown[]) {
 }
 
 export function installConsoleInterceptor() {
-  if (!isBrowser() || installed) {
+  if (!isBrowser()) {
+    return;
+  }
+
+  installCount += 1;
+
+  if (installed) {
     return;
   }
 
@@ -132,6 +139,12 @@ export function installConsoleInterceptor() {
 
 export function uninstallConsoleInterceptor() {
   if (!installed) {
+    return;
+  }
+
+  installCount = Math.max(0, installCount - 1);
+
+  if (installCount > 0) {
     return;
   }
 

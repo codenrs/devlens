@@ -2,6 +2,7 @@ import { isBrowser } from '@codenrs/devlens-shared';
 import { performanceStore } from '../stores/performanceStore';
 
 let installed = false;
+let installCount = 0;
 let frameCount = 0;
 let lastTime = 0;
 let rafId: number | null = null;
@@ -28,19 +29,30 @@ function tick(currentTime: number) {
 }
 
 export function installFpsMonitor() {
-  if (!isBrowser() || installed) {
+  if (!isBrowser()) {
+    return;
+  }
+
+  installCount += 1;
+
+  if (installed) {
     return;
   }
 
   installed = true;
   frameCount = 0;
   lastTime = 0;
-
   rafId = window.requestAnimationFrame(tick);
 }
 
 export function uninstallFpsMonitor() {
   if (!installed) {
+    return;
+  }
+
+  installCount = Math.max(0, installCount - 1);
+
+  if (installCount > 0) {
     return;
   }
 
