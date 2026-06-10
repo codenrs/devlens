@@ -61,8 +61,8 @@
     "react-dom": ">=18"
   },
   "dependencies": {
-    "@codenrs/devlens-react": "0.1.0-alpha.3",
-    "@codenrs/devlens-ui": "0.1.0-alpha.3",
-    "@codenrs/devlens-core": "0.1.0-alpha.3"
+    "@codenrs/devlens-react": "workspace:^",
+    "@codenrs/devlens-ui": "workspace:^",
+    "@codenrs/devlens-core": "workspace:^"
   }
 }

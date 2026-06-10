@@ -56,6 +56,6 @@
     "react": ">=18"
   },
   "dependencies": {
-    "@codenrs/devlens-core": "0.1.0-alpha.3"
+    "@codenrs/devlens-core": "workspace:^"
   }
 }

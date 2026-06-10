@@ -51,6 +51,6 @@
     "clean": "rimraf dist"
   },
   "dependencies": {
-    "@codenrs/devlens-shared": "0.1.0-alpha.3"
+    "@codenrs/devlens-shared": "workspace:^"
   }
 }
