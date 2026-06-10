@@ -72,7 +72,8 @@
   position: fixed;
   bottom: 16px;
   z-index: 999999;
-  height: 44px;
+  min-height: 44px;
+  max-width: calc(100vw - 32px);
   padding: 0 14px;
   border-radius: 999px;
   background: var(--devlens-bg);
@@ -86,6 +87,10 @@
   backdrop-filter: blur(12px);
   cursor: pointer;
   user-select: none;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
 }
 
 .devlens-bar-bottom-right {
@@ -103,6 +108,9 @@
   font-weight: 700;
 }
 
+.devlens-bar span {
+  flex: 0 0 auto;
+}
 /* ==========================================================================
    Drawer Shell
    ========================================================================== */
@@ -127,18 +135,23 @@
 }
 
 .devlens-drawer-header {
-  height: 48px;
+  min-height: 52px;
   padding: 0 14px;
   border-bottom: 1px solid var(--devlens-border);
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
 }
 
 .devlens-drawer-title {
+  min-width: 0;
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 800;
   color: var(--devlens-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .devlens-drawer-actions {
@@ -176,21 +189,35 @@
   padding: 10px 12px;
   border-bottom: 1px solid var(--devlens-border);
   overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
 }
 
 .devlens-tab {
+  flex: 0 0 auto;
   border: 1px solid var(--devlens-border);
   background: rgba(168, 85, 247, 0.12);
   color: var(--devlens-brand);
   border-radius: 999px;
   padding: 6px 12px;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
   display: inline-flex;
   align-items: center;
   gap: 6px;
   cursor: pointer;
   white-space: nowrap;
+  scroll-snap-align: start;
+  transition:
+    background 120ms ease,
+    border-color 120ms ease,
+    color 120ms ease;
+}
+
+.devlens-tab:hover {
+  background: rgba(168, 85, 247, 0.18);
+  border-color: rgba(192, 132, 252, 0.45);
 }
 
 .devlens-tab-active {
@@ -225,6 +252,24 @@
   padding: 28px;
   color: var(--devlens-text-muted);
   text-align: center;
+}
+
+.devlens-empty-state {
+  border: 1px dashed var(--devlens-border-soft);
+  background: var(--devlens-bg-muted);
+  border-radius: 14px;
+  padding: 28px 18px;
+  color: var(--devlens-text-muted);
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.devlens-empty-state strong {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--devlens-text);
+  font-size: 13px;
 }
 
 .devlens-flags {
@@ -426,6 +471,28 @@
   font-family:
     ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
     monospace;
+}
+
+.devlens-details-origin {
+  margin-bottom: 6px;
+  color: var(--devlens-text-muted);
+  font-size: 11px;
+  font-weight: 700;
+  word-break: break-all;
+}
+
+.devlens-details-url-full {
+  padding: 10px;
+  border: 1px solid var(--devlens-border-soft);
+  border-radius: 10px;
+  background: var(--devlens-bg-muted);
+}
+
+.devlens-details-section-title {
+  margin-bottom: 8px;
+  color: var(--devlens-text);
+  font-size: 13px;
+  font-weight: 800;
 }
 
 /* ==========================================================================
@@ -831,13 +898,13 @@
 @media (min-width: 1440px) {
   .devlens-drawer {
     width: min(70vw, calc(100vw - 10vw));
-    height: min(100vh, calc(100vh - 50vh));
+    height: min(100vh, calc(100vh - 30vh));
   }
 
   .devlens-overview-grid,
   .devlens-overview-grid-compact,
   .devlens-overview-grid-dense {
-    grid-template-columns: repeat(8, minmax(0, 1fr));
+    grid-template-columns: repeat(6, minmax(0, 1fr));
   }
 }
 
@@ -870,18 +937,34 @@
   .devlens-drawer {
     right: 10px;
     bottom: 68px;
-    width: calc(100vw - 10vw);
-    height: min(720px, calc(100vh - 40vh));
+    width: calc(100vw - 20px);
+    height: min(720px, calc(100vh - 96px));
     min-height: 360px;
     border-radius: 16px;
   }
 
+  .devlens-drawer-header {
+    min-height: 48px;
+    padding: 0 10px;
+  }
+
+  .devlens-drawer-title {
+    font-size: 13px;
+  }
+
+  .devlens-header-action {
+    padding: 5px 8px;
+    font-size: 11px;
+  }
+
   .devlens-tabs {
     gap: 6px;
+    padding: 8px 10px;
   }
 
   .devlens-tab {
     padding: 6px 10px;
+    font-size: 11px;
   }
 
   .devlens-overview-grid,
@@ -894,6 +977,27 @@
   .devlens-setting-row {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .devlens-bar {
+    bottom: 12px;
+    max-width: calc(100vw - 20px);
+    min-height: 40px;
+    padding: 0 10px;
+    gap: 8px;
+    font-size: 11px;
+  }
+
+  .devlens-bar-bottom-right {
+    right: 10px;
+  }
+
+  .devlens-bar-bottom-left {
+    left: 10px;
+  }
+
+  .devlens-brand {
+    font-size: 12px;
   }
 }
 

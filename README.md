@@ -18,6 +18,26 @@ Created by **Noore Rabbi Shagor** under **CodeNRS**.
 
 ---
 
+# Screenshots
+
+## Floating Debugbar
+
+![DevLens Floating Bar](docs/assets/devlens-floating-bar.png)
+
+---
+
+## Overview Panel
+
+![DevLens Overview](docs/assets/devlens-overview.png)
+
+---
+
+## Network Details
+
+![DevLens Network Details](docs/assets/devlens-network-details.png)
+
+---
+
 # Features
 
 - Floating developer debugbar
@@ -128,7 +148,7 @@ export function DevLensClient() {
 
 ---
 
-## 2. Add DevLens to your layout
+## 2. Add DevLens to your application
 
 ### App Router (`app/layout.tsx`)
 
@@ -210,6 +230,16 @@ DevLens should be:
 - developer friendly
 
 DevLens should never feel bloated, intrusive, or difficult to set up.
+
+---
+
+# NPM Packages
+
+- `@codenrs/devlens-react`
+- `@codenrs/devlens-next`
+- `@codenrs/devlens-ui`
+- `@codenrs/devlens-core`
+- `@codenrs/devlens-shared`
 
 ---
 
