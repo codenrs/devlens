@@ -19,6 +19,12 @@ export * from './useDevLensRender';
 export * from './DevLensErrorBoundary';
 export type { DevLensBarProps };
 
+export {
+  installAxiosInterceptor,
+  uninstallAxiosInterceptor,
+  type DevLensAxiosInstance,
+} from '@nrshagor/devlens-core';
+
 export type DevLensProps = DevLensBarProps & {
   enabled?: boolean;
 };

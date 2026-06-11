@@ -1,9 +1,20 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import './App.css';
 
-import { DevLens, DevLensErrorBoundary, useDevLensRender } from '@nrshagor/devlens-react';
+import {
+  DevLens,
+  DevLensErrorBoundary,
+  installAxiosInterceptor,
+  uninstallAxiosInterceptor,
+  useDevLensRender,
+} from '@nrshagor/devlens-react';
 
 import '@nrshagor/devlens-react/styles.css';
+
+const axiosClient = axios.create({
+  baseURL: 'https://jsonplaceholder.typicode.com',
+});
 
 function BrokenComponent({ shouldBreak }: { shouldBreak: boolean }) {
   useDevLensRender('BrokenComponent');
@@ -23,9 +34,7 @@ function DemoCounterCard() {
   return (
     <div style={{ marginTop: 24 }}>
       <h2>Render Tracking Test</h2>
-
       <p>Count: {count}</p>
-
       <button onClick={() => setCount((value) => value + 1)}>Trigger Re-render</button>
     </div>
   );
@@ -35,6 +44,19 @@ function App() {
   useDevLensRender('App');
 
   const [shouldBreak, setShouldBreak] = useState(false);
+
+  useEffect(() => {
+    console.log('Installing DevLens axios interceptor', axiosClient.interceptors);
+
+    installAxiosInterceptor(axiosClient);
+
+    console.log('Axios request handlers:', axiosClient.interceptors.request);
+    console.log('Axios response handlers:', axiosClient.interceptors.response);
+
+    return () => {
+      uninstallAxiosInterceptor(axiosClient);
+    };
+  }, []);
 
   const callSuccessApi = async () => {
     await fetch('https://jsonplaceholder.typicode.com/posts/1');
@@ -48,27 +70,39 @@ function App() {
     }
   };
 
+  const callAxiosSuccessApi = async () => {
+    await axiosClient.get('/posts/2');
+  };
+
+  const callAxiosFailedApi = async () => {
+    try {
+      await axiosClient.get('/invalid-url-404');
+    } catch {
+      // ignore for demo
+    }
+  };
+
   return (
     <>
-      <div
-        style={{
-          padding: 40,
-          color: 'white',
-          background: '#0f172a',
-          minHeight: '100vh',
-        }}
-      >
+      <div style={{ padding: 40, color: 'white', background: '#0f172a', minHeight: '100vh' }}>
         <h1>DevLens Playground</h1>
-
         <p>Testing DevLens API monitoring inside React Vite example application.</p>
 
         <button onClick={callSuccessApi}>Call Success API</button>
-
         <button onClick={callFailedApi} style={{ marginLeft: 12 }}>
           Call Failed API
         </button>
 
+        <button onClick={callAxiosSuccessApi} style={{ marginLeft: 12 }}>
+          Call Axios Success API
+        </button>
+
+        <button onClick={callAxiosFailedApi} style={{ marginLeft: 12 }}>
+          Call Axios Failed API
+        </button>
+
         <DemoCounterCard />
+
         <button
           onClick={() => {
             throw new Error('Runtime crash test');
@@ -76,6 +110,7 @@ function App() {
         >
           Runtime Error Test
         </button>
+
         <button
           onClick={() => {
             Promise.reject(new Error('Unhandled promise rejection test'));

@@ -65,9 +65,10 @@ export function DevLensBar({
   }, []);
 
   const apiCount = requests.length;
-  const apiErrorCount = requests.filter((request) => request.status === 'error').length;
+  // const apiErrorCount = requests.filter((request) => request.status === 'error').length;
   const runtimeErrorCount = errorSnapshot.records.length;
-  const totalErrorCount = apiErrorCount + runtimeErrorCount;
+  // const totalErrorCount = apiErrorCount + runtimeErrorCount;
+  const totalErrorCount = runtimeErrorCount;
   const slowCount = requests.filter((request) => request.isSlow).length;
 
   const renderCount = useMemo(

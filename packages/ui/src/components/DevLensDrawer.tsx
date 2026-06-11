@@ -89,7 +89,7 @@ export function DevLensDrawer({
   if (!open) return null;
 
   const consoleErrorCount = consoleRecords.filter((record) => record.level === 'error').length;
-  const apiErrorCount = requests.filter((request) => request.status === 'error').length;
+  // const apiErrorCount = requests.filter((request) => request.status === 'error').length;
 
   const tabs: DevLensTab[] = [
     { id: 'overview', label: 'Overview' },
@@ -98,7 +98,7 @@ export function DevLensDrawer({
     { id: 'performance', label: 'Performance' },
     { id: 'routes', label: 'Routes' },
     { id: 'render', label: 'Render' },
-    { id: 'errors', label: 'Errors', badge: apiErrorCount + runtimeErrorCount },
+    { id: 'errors', label: 'Runtime Errors', badge: runtimeErrorCount },
     { id: 'settings', label: 'Settings' },
   ];
 
