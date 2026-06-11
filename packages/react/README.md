@@ -1,4 +1,4 @@
-# @codenrs/devlens-react
+# @nrshagor/devlens-react
 
 Modern debugging and performance inspection toolkit for React applications.
 
@@ -21,19 +21,19 @@ Monitor:
 Using npm:
 
 ```bash id="v3c8mx"
-npm install @codenrs/devlens-react
+npm install @nrshagor/devlens-react
 ```
 
 Using pnpm:
 
 ```bash id="p4t7qa"
-pnpm add @codenrs/devlens-react
+pnpm add @nrshagor/devlens-react
 ```
 
 Using yarn:
 
 ```bash id="y8m1rq"
-yarn add @codenrs/devlens-react
+yarn add @nrshagor/devlens-react
 ```
 
 ---
@@ -43,8 +43,8 @@ yarn add @codenrs/devlens-react
 Add DevLens inside your main application component.
 
 ```tsx id="d6k2ns"
-import { DevLens } from '@codenrs/devlens-react';
-import '@codenrs/devlens-react/styles.css';
+import { DevLens } from '@nrshagor/devlens-react';
+import '@nrshagor/devlens-react/styles.css';
 
 export function App() {
   return (
@@ -63,7 +63,7 @@ export function App() {
 Render tracking is opt-in to keep DevLens lightweight.
 
 ```tsx id="z9f4pm"
-import { useDevLensRender } from '@codenrs/devlens-react';
+import { useDevLensRender } from '@nrshagor/devlens-react';
 
 function ProductCard() {
   useDevLensRender('ProductCard');
@@ -77,7 +77,7 @@ function ProductCard() {
 # Error Boundary Tracking
 
 ```tsx id="q7w1vt"
-import { DevLensErrorBoundary } from '@codenrs/devlens-react';
+import { DevLensErrorBoundary } from '@nrshagor/devlens-react';
 
 export function App() {
   return (

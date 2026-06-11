@@ -6,7 +6,7 @@ import {
   type ConsoleRecord,
   type NetworkRequestRecord,
   type PerformanceSnapshot,
-} from '@codenrs/devlens-core';
+} from '@nrshagor/devlens-core';
 import { formatConsoleTime, formatDuration, formatFps } from '../../utils/format';
 import { ConsoleMessage } from '../console/ConsoleMessage';
 import { RequestFlags } from '../network/RequestFlags';

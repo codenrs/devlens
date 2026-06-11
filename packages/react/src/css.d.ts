@@ -1,2 +1,2 @@
 declare module '*.css';
-declare module '@codenrs/devlens-ui/styles/devlens.css';
+declare module '@nrshagor/devlens-ui/styles/devlens.css';

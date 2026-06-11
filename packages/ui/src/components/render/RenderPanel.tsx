@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { renderStore } from '@codenrs/devlens-core';
+import { renderStore } from '@nrshagor/devlens-core';
 
 export function RenderPanel() {
   const [snapshot, setSnapshot] = useState(renderStore.getSnapshot());

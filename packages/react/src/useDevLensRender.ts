@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { renderStore } from '@codenrs/devlens-core';
+import { renderStore } from '@nrshagor/devlens-core';
 
 export function useDevLensRender(componentName: string) {
   const startedAt = useRef(0);

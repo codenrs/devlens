@@ -1,5 +1,5 @@
 import React from 'react';
-import { consoleStore, type ConsoleRecord } from '@codenrs/devlens-core';
+import { consoleStore, type ConsoleRecord } from '@nrshagor/devlens-core';
 import { formatConsoleTime } from '../../utils/format';
 import { ConsoleMessage } from './ConsoleMessage';
 

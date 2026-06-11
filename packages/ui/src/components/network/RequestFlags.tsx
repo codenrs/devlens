@@ -1,5 +1,5 @@
 import React from 'react';
-import type { NetworkRequestRecord } from '@codenrs/devlens-core';
+import type { NetworkRequestRecord } from '@nrshagor/devlens-core';
 
 export function RequestFlags({ request }: { request: NetworkRequestRecord }) {
   const hasFlags = request.isSlow || request.status === 'error';

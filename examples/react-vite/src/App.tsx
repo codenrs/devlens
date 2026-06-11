@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import './App.css';
 
-import { DevLens, DevLensErrorBoundary, useDevLensRender } from '@codenrs/devlens-react';
+import { DevLens, DevLensErrorBoundary, useDevLensRender } from '@nrshagor/devlens-react';
 
-import '@codenrs/devlens-react/styles.css';
+import '@nrshagor/devlens-react/styles.css';
 
 function BrokenComponent({ shouldBreak }: { shouldBreak: boolean }) {
   useDevLensRender('BrokenComponent');

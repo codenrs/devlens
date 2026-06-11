@@ -11,19 +11,19 @@ It adds a floating developer debugbar and expandable inspector drawer directly i
 Using pnpm:
 
 ```bash
-pnpm add @codenrs/devlens-react
+pnpm add @nrshagor/devlens-react
 ```
 
 Using npm:
 
 ```bash
-npm install @codenrs/devlens-react
+npm install @nrshagor/devlens-react
 ```
 
 Using yarn:
 
 ```bash
-yarn add @codenrs/devlens-react
+yarn add @nrshagor/devlens-react
 ```
 
 ### Next.js
@@ -31,26 +31,26 @@ yarn add @codenrs/devlens-react
 Using pnpm:
 
 ```bash
-pnpm add @codenrs/devlens-next
+pnpm add @nrshagor/devlens-next
 ```
 
 Using npm:
 
 ```bash
-npm install @codenrs/devlens-next
+npm install @nrshagor/devlens-next
 ```
 
 Using yarn:
 
 ```bash
-yarn add @codenrs/devlens-next
+yarn add @nrshagor/devlens-next
 ```
 
 ## Basic React Setup
 
 ```tsx
-import { DevLens } from '@codenrs/devlens-react';
-import '@codenrs/devlens-react/styles.css';
+import { DevLens } from '@nrshagor/devlens-react';
+import '@nrshagor/devlens-react/styles.css';
 
 export function App() {
   return (

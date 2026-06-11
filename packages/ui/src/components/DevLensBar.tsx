@@ -11,7 +11,7 @@ import {
   type NetworkRequestRecord,
   type PerformanceSnapshot,
   type RenderSnapshot,
-} from '@codenrs/devlens-core';
+} from '@nrshagor/devlens-core';
 import type { DevLensBarProps, DevLensTabId, DevLensTheme } from '../types';
 import { readDevLensUiState, writeDevLensUiState } from '../utils/storage';
 import { DevLensDrawer } from './DevLensDrawer';

@@ -1,4 +1,4 @@
-import { createDevLensId } from '@codenrs/devlens-shared';
+import { createDevLensId } from '@nrshagor/devlens-shared';
 import type { RenderRecord, RenderSnapshot } from '../render/types';
 
 type RenderStoreListener = (snapshot: RenderSnapshot) => void;

@@ -1,4 +1,4 @@
-import { createDevLensId, isBrowser } from '@codenrs/devlens-shared';
+import { createDevLensId, isBrowser } from '@nrshagor/devlens-shared';
 import { devlensCore } from '../index';
 import { networkStore } from '../stores/networkStore';
 import type { NetworkRequestRecord } from './types';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { performanceStore, type PerformanceSnapshot } from '@codenrs/devlens-core';
+import { performanceStore, type PerformanceSnapshot } from '@nrshagor/devlens-core';
 import {
   formatDuration,
   formatFps,

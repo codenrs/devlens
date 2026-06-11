@@ -1,4 +1,4 @@
-# @codenrs/devlens-next
+# @nrshagor/devlens-next
 
 Modern debugging and performance inspection toolkit for Next.js applications.
 
@@ -26,19 +26,19 @@ Supports both:
 Using npm:
 
 ```bash id="t9d3m1"
-npm install @codenrs/devlens-next
+npm install @nrshagor/devlens-next
 ```
 
 Using pnpm:
 
 ```bash id="j6vn4m"
-pnpm add @codenrs/devlens-next
+pnpm add @nrshagor/devlens-next
 ```
 
 Using yarn:
 
 ```bash id="u6v4pn"
-yarn add @codenrs/devlens-next
+yarn add @nrshagor/devlens-next
 ```
 
 ---
@@ -56,8 +56,8 @@ components/devlens-client.tsx
 ```tsx id="t8x9qf"
 'use client';
 
-import { NextDevLens } from '@codenrs/devlens-next';
-import '@codenrs/devlens-next/styles.css';
+import { NextDevLens } from '@nrshagor/devlens-next';
+import '@nrshagor/devlens-next/styles.css';
 
 export function DevLensClient() {
   return <NextDevLens />;
@@ -96,8 +96,8 @@ pages/_app.tsx
 ```tsx id="k2t7qm"
 import type { AppProps } from 'next/app';
 
-import { NextDevLens } from '@codenrs/devlens-next';
-import '@codenrs/devlens-next/styles.css';
+import { NextDevLens } from '@nrshagor/devlens-next';
+import '@nrshagor/devlens-next/styles.css';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -116,7 +116,7 @@ export default function App({ Component, pageProps }: AppProps) {
 Render tracking is opt-in to keep DevLens lightweight.
 
 ```tsx id="n4r2zb"
-import { useDevLensRender } from '@codenrs/devlens-react';
+import { useDevLensRender } from '@nrshagor/devlens-react';
 
 function ProductCard() {
   useDevLensRender('ProductCard');

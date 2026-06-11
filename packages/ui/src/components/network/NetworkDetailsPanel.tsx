@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import type { NetworkRequestRecord } from '@codenrs/devlens-core';
+import type { NetworkRequestRecord } from '@nrshagor/devlens-core';
 import { formatDuration } from '../../utils/format';
 import { RequestFlags } from './RequestFlags';
 import { RequestStatusBadge } from './RequestStatusBadge';

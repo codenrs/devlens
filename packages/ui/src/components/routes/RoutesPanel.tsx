@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { routeStore } from '@codenrs/devlens-core';
+import { routeStore } from '@nrshagor/devlens-core';
 
 export function RoutesPanel() {
   const [snapshot, setSnapshot] = useState(routeStore.getSnapshot());

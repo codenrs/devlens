@@ -1,4 +1,4 @@
-import { createDevLensId } from '@codenrs/devlens-shared';
+import { createDevLensId } from '@nrshagor/devlens-shared';
 import type { DevLensErrorRecord, DevLensErrorSnapshot, DevLensErrorSource } from '../errors/types';
 
 type ErrorStoreListener = (snapshot: DevLensErrorSnapshot) => void;

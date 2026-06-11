@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import type { NetworkRequestRecord } from '@codenrs/devlens-core';
+import type { NetworkRequestRecord } from '@nrshagor/devlens-core';
 import { formatDuration } from '../../utils/format';
 import { NetworkDetailsPanel } from './NetworkDetailsPanel';
 import { RequestFlags } from './RequestFlags';

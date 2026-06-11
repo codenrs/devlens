@@ -1,4 +1,4 @@
-import { createDevLensId, isBrowser } from '@codenrs/devlens-shared';
+import { createDevLensId, isBrowser } from '@nrshagor/devlens-shared';
 import { performanceStore } from '../stores/performanceStore';
 import type { LongTaskRecord } from './types';
 

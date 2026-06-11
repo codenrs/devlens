@@ -3,7 +3,7 @@
 DevLens provides Next.js integration through:
 
 ```tsx
-import { NextDevLens } from '@codenrs/devlens-next';
+import { NextDevLens } from '@nrshagor/devlens-next';
 ```
 
 DevLens supports:
@@ -18,19 +18,19 @@ DevLens supports:
 Using npm:
 
 ```bash
-npm install @codenrs/devlens-next
+npm install @nrshagor/devlens-next
 ```
 
 Using pnpm:
 
 ```bash
-pnpm add @codenrs/devlens-next
+pnpm add @nrshagor/devlens-next
 ```
 
 Using yarn:
 
 ```bash
-yarn add @codenrs/devlens-next
+yarn add @nrshagor/devlens-next
 ```
 
 ## App Router Setup
@@ -42,8 +42,8 @@ Example:
 ```tsx
 'use client';
 
-import { NextDevLens } from '@codenrs/devlens-next';
-import '@codenrs/devlens-next/styles.css';
+import { NextDevLens } from '@nrshagor/devlens-next';
+import '@nrshagor/devlens-next/styles.css';
 
 export function DevLensClient() {
   return <NextDevLens />;
@@ -75,8 +75,8 @@ Inside `_app.tsx`:
 ```tsx
 import type { AppProps } from 'next/app';
 
-import { NextDevLens } from '@codenrs/devlens-next';
-import '@codenrs/devlens-next/styles.css';
+import { NextDevLens } from '@nrshagor/devlens-next';
+import '@nrshagor/devlens-next/styles.css';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -114,7 +114,7 @@ Render tracking remains opt-in in Next.js applications.
 Example:
 
 ```tsx
-import { useDevLensRender } from '@codenrs/devlens-react';
+import { useDevLensRender } from '@nrshagor/devlens-react';
 
 export function ProductCard() {
   useDevLensRender('ProductCard');

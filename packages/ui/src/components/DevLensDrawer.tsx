@@ -3,7 +3,7 @@ import type {
   ConsoleRecord,
   NetworkRequestRecord,
   PerformanceSnapshot,
-} from '@codenrs/devlens-core';
+} from '@nrshagor/devlens-core';
 import type { DevLensTab, DevLensTabId, DevLensTheme } from '../types';
 import { getNextTheme } from '../utils/format';
 import { ConsolePanel } from './console/ConsolePanel';

@@ -1,4 +1,8 @@
-import { createDevLensId, type DevLensEvent, type DevLensEventType } from '@codenrs/devlens-shared';
+import {
+  createDevLensId,
+  type DevLensEvent,
+  type DevLensEventType,
+} from '@nrshagor/devlens-shared';
 
 export * from './network';
 export * from './stores/networkStore';

@@ -12,8 +12,8 @@ import {
   uninstallLongTaskMonitor,
   uninstallRouteMonitor,
   uninstallRuntimeErrorMonitor,
-} from '@codenrs/devlens-core';
-import { DevLensBar, type DevLensBarProps } from '@codenrs/devlens-ui';
+} from '@nrshagor/devlens-core';
+import { DevLensBar, type DevLensBarProps } from '@nrshagor/devlens-ui';
 
 export * from './useDevLensRender';
 export * from './DevLensErrorBoundary';

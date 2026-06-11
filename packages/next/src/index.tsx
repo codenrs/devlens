@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { DevLens, type DevLensProps } from '@codenrs/devlens-react';
+import { DevLens, type DevLensProps } from '@nrshagor/devlens-react';
 
 export type NextDevLensProps = DevLensProps;
 

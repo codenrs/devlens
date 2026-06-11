@@ -1,5 +1,5 @@
 {
-  "name": "@codenrs/devlens-core",
+  "name": "@nrshagor/devlens-core",
   "private": false,
   "version": "0.1.0-alpha.3",
   "description": "Core runtime engine for DevLens.",
@@ -24,11 +24,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/codenrs/devlens.git"
+    "url": "https://github.com/nrshagor/devlens.git"
   },
-  "homepage": "https://github.com/codenrs/devlens",
+  "homepage": "https://github.com/nrshagor/devlens",
   "bugs": {
-    "url": "https://github.com/codenrs/devlens/issues"
+    "url": "https://github.com/nrshagor/devlens/issues"
   },
   "keywords": [
     "react",
@@ -39,7 +39,7 @@
     "monitoring",
     "runtime",
     "frontend",
-    "codenrs",
+    "nrshagor",
     "devlens",
     "nrshagor"
   ],
@@ -51,6 +51,6 @@
     "clean": "rimraf dist"
   },
   "dependencies": {
-    "@codenrs/devlens-shared": "workspace:^"
+    "@nrshagor/devlens-shared": "workspace:^"
   }
 }

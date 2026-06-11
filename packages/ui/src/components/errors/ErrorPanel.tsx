@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { errorStore } from '@codenrs/devlens-core';
+import { errorStore } from '@nrshagor/devlens-core';
 
 export function ErrorPanel() {
   const [snapshot, setSnapshot] = useState(errorStore.getSnapshot());

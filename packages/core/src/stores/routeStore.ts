@@ -1,4 +1,4 @@
-import { createDevLensId } from '@codenrs/devlens-shared';
+import { createDevLensId } from '@nrshagor/devlens-shared';
 import type { RouteNavigationType, RouteRecord, RouteSnapshot } from '../router/types';
 
 type RouteStoreListener = (snapshot: RouteSnapshot) => void;

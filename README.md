@@ -66,19 +66,19 @@ Created by **Noore Rabbi Shagor** under **CodeNRS**.
 Using pnpm:
 
 ```bash
-pnpm add @codenrs/devlens-react
+pnpm add @nrshagor/devlens-react
 ```
 
 Using npm:
 
 ```bash
-npm install @codenrs/devlens-react
+npm install @nrshagor/devlens-react
 ```
 
 Using yarn:
 
 ```bash
-yarn add @codenrs/devlens-react
+yarn add @nrshagor/devlens-react
 ```
 
 ---
@@ -88,19 +88,19 @@ yarn add @codenrs/devlens-react
 Using pnpm:
 
 ```bash
-pnpm add @codenrs/devlens-next
+pnpm add @nrshagor/devlens-next
 ```
 
 Using npm:
 
 ```bash
-npm install @codenrs/devlens-next
+npm install @nrshagor/devlens-next
 ```
 
 Using yarn:
 
 ```bash
-yarn add @codenrs/devlens-next
+yarn add @nrshagor/devlens-next
 ```
 
 ---
@@ -110,8 +110,8 @@ yarn add @codenrs/devlens-next
 Add DevLens inside your main application component.
 
 ```tsx
-import { DevLens } from '@codenrs/devlens-react';
-import '@codenrs/devlens-react/styles.css';
+import { DevLens } from '@nrshagor/devlens-react';
+import '@nrshagor/devlens-react/styles.css';
 
 export function App() {
   return (
@@ -138,8 +138,8 @@ components/devlens-client.tsx
 ```tsx
 'use client';
 
-import { NextDevLens } from '@codenrs/devlens-next';
-import '@codenrs/devlens-next/styles.css';
+import { NextDevLens } from '@nrshagor/devlens-next';
+import '@nrshagor/devlens-next/styles.css';
 
 export function DevLensClient() {
   return <NextDevLens />;
@@ -192,7 +192,7 @@ export default function App({ Component, pageProps }: AppProps) {
 Render tracking is opt-in to keep DevLens lightweight.
 
 ```tsx
-import { useDevLensRender } from '@codenrs/devlens-react';
+import { useDevLensRender } from '@nrshagor/devlens-react';
 
 function ProductCard() {
   useDevLensRender('ProductCard');
@@ -206,7 +206,7 @@ function ProductCard() {
 # Error Boundary Tracking
 
 ```tsx
-import { DevLensErrorBoundary } from '@codenrs/devlens-react';
+import { DevLensErrorBoundary } from '@nrshagor/devlens-react';
 
 export function App() {
   return (
@@ -235,11 +235,11 @@ DevLens should never feel bloated, intrusive, or difficult to set up.
 
 # NPM Packages
 
-- `@codenrs/devlens-react`
-- `@codenrs/devlens-next`
-- `@codenrs/devlens-ui`
-- `@codenrs/devlens-core`
-- `@codenrs/devlens-shared`
+- `@nrshagor/devlens-react`
+- `@nrshagor/devlens-next`
+- `@nrshagor/devlens-ui`
+- `@nrshagor/devlens-core`
+- `@nrshagor/devlens-shared`
 
 ---
 

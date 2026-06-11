@@ -1,4 +1,4 @@
-import { createDevLensId, isBrowser } from '@codenrs/devlens-shared';
+import { createDevLensId, isBrowser } from '@nrshagor/devlens-shared';
 import { consoleStore } from '../stores/consoleStore';
 import type { ConsoleLogLevel, ConsoleRecord } from './types';
 

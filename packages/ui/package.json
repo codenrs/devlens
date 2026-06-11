@@ -1,5 +1,5 @@
 {
-  "name": "@codenrs/devlens-ui",
+  "name": "@nrshagor/devlens-ui",
   "private": false,
   "version": "0.1.0-alpha.3",
   "description": "UI components for DevLens.",
@@ -27,11 +27,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/codenrs/devlens.git"
+    "url": "https://github.com/nrshagor/devlens.git"
   },
-  "homepage": "https://github.com/codenrs/devlens",
+  "homepage": "https://github.com/nrshagor/devlens",
   "bugs": {
-    "url": "https://github.com/codenrs/devlens/issues"
+    "url": "https://github.com/nrshagor/devlens/issues"
   },
   "keywords": [
     "react",
@@ -41,7 +41,7 @@
     "developer-tools",
     "debugbar",
     "frontend",
-    "codenrs",
+    "nrshagor",
     "devlens",
     "nrshagor"
   ],
@@ -56,6 +56,6 @@
     "react": ">=18"
   },
   "dependencies": {
-    "@codenrs/devlens-core": "workspace:^"
+    "@nrshagor/devlens-core": "workspace:^"
   }
 }

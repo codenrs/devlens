@@ -1,5 +1,5 @@
 {
-  "name": "@codenrs/devlens-react",
+  "name": "@nrshagor/devlens-react",
   "private": false,
   "version": "0.1.0-alpha.3",
   "description": "React adapter for DevLens.",
@@ -28,11 +28,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/codenrs/devlens.git"
+    "url": "https://github.com/nrshagor/devlens.git"
   },
-  "homepage": "https://github.com/codenrs/devlens",
+  "homepage": "https://github.com/nrshagor/devlens",
   "bugs": {
-    "url": "https://github.com/codenrs/devlens/issues"
+    "url": "https://github.com/nrshagor/devlens/issues"
   },
   "keywords": [
     "react",
@@ -43,7 +43,7 @@
     "debugbar",
     "developer-tools",
     "frontend",
-    "codenrs",
+    "nrshagor",
     "devlens",
     "nrshagor"
   ],
@@ -58,7 +58,7 @@
     "react": ">=18"
   },
   "dependencies": {
-    "@codenrs/devlens-ui": "workspace:^",
-    "@codenrs/devlens-core": "workspace:^"
+    "@nrshagor/devlens-ui": "workspace:^",
+    "@nrshagor/devlens-core": "workspace:^"
   }
 }

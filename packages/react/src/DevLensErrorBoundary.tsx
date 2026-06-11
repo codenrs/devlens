@@ -1,5 +1,5 @@
 import React from 'react';
-import { errorStore } from '@codenrs/devlens-core';
+import { errorStore } from '@nrshagor/devlens-core';
 
 export type DevLensErrorBoundaryProps = {
   children: React.ReactNode;

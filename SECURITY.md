@@ -13,7 +13,7 @@ Please do not publicly disclose security vulnerabilities.
 If you discover a security issue, report it privately through:
 
 ```txt
-opensource@codenrs.com
+opensource@nrshagor.com
 ```
 
 Please include:

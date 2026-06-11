@@ -1,4 +1,4 @@
-import type { PerformanceSnapshot } from '@codenrs/devlens-core';
+import type { PerformanceSnapshot } from '@nrshagor/devlens-core';
 import type { DevLensTheme } from '../types';
 
 export function formatDuration(value?: number) {

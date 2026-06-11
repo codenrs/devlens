@@ -1,4 +1,4 @@
-import { isBrowser } from '@codenrs/devlens-shared';
+import { isBrowser } from '@nrshagor/devlens-shared';
 import { performanceStore } from '../stores/performanceStore';
 
 let installed = false;

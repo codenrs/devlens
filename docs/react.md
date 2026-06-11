@@ -3,14 +3,14 @@
 DevLens provides a lightweight React integration through:
 
 ```tsx
-import { DevLens } from '@codenrs/devlens-react';
+import { DevLens } from '@nrshagor/devlens-react';
 ```
 
 ## Basic Setup
 
 ```tsx
-import { DevLens } from '@codenrs/devlens-react';
-import '@codenrs/devlens-react/styles.css';
+import { DevLens } from '@nrshagor/devlens-react';
+import '@nrshagor/devlens-react/styles.css';
 
 function App() {
   return (
@@ -75,7 +75,7 @@ Render tracking is intentionally opt-in to keep DevLens lightweight.
 Example:
 
 ```tsx
-import { useDevLensRender } from '@codenrs/devlens-react';
+import { useDevLensRender } from '@nrshagor/devlens-react';
 
 function ProductCard() {
   useDevLensRender('ProductCard');
@@ -96,7 +96,7 @@ Tracked data includes:
 DevLens includes a lightweight React error boundary.
 
 ```tsx
-import { DevLensErrorBoundary } from '@codenrs/devlens-react';
+import { DevLensErrorBoundary } from '@nrshagor/devlens-react';
 
 function App() {
   return (

@@ -136,7 +136,7 @@ Theme preferences are persisted locally.
 DevLens supports modern React applications through:
 
 ```tsx id="ftq0rf"
-@codenrs/devlens-react
+@nrshagor/devlens-react
 ```
 
 ## Next.js Support

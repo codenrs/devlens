@@ -1,5 +1,5 @@
 import React from 'react';
-import type { PerformanceSnapshot } from '@codenrs/devlens-core';
+import type { PerformanceSnapshot } from '@nrshagor/devlens-core';
 import { getFpsStatusLabel } from '../../utils/format';
 
 export function OverviewMetricCard({
