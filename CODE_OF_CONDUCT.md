@@ -48,4 +48,3 @@ This Code of Conduct applies within all DevLens community spaces, including:
 For questions or concerns regarding the Code of Conduct, contact:
 
 **Noore Rabbi Shagor**
-CodeNRS

@@ -71,4 +71,3 @@ Responsible disclosure helps protect the developer community using DevLens.
 Created and maintained by:
 
 **Noore Rabbi Shagor**
-CodeNRS

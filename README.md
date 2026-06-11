@@ -14,7 +14,7 @@ It provides a lightweight in-app developer inspector for monitoring:
 - FPS and long tasks
 - application performance
 
-Created by **Noore Rabbi Shagor** under **CodeNRS**.
+Created by **Noore Rabbi Shagor**.
 
 ---
 

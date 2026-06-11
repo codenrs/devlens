@@ -103,4 +103,4 @@ The toolkit is designed to avoid:
 
 ## Created By
 
-Created by **Noore Rabbi Shagor** under **CodeNRS**.
+Created by **Noore Rabbi Shagor**.

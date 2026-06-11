@@ -148,4 +148,4 @@ function ProductCard() {
 
 AGPL-3.0-only
 
-Created by **Noore Rabbi Shagor** under **CodeNRS**.
+Created by **Noore Rabbi Shagor**.

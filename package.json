@@ -7,11 +7,11 @@
   "license": "AGPL-3.0-only",
   "repository": {
     "type": "git",
-    "url": "https://github.com/codenrs/devlens.git"
+    "url": "https://github.com/nrshagor/devlens.git"
   },
-  "homepage": "https://github.com/codenrs/devlens#readme",
+  "homepage": "https://github.com/nrshagor/devlens#readme",
   "bugs": {
-    "url": "https://github.com/codenrs/devlens/issues"
+    "url": "https://github.com/nrshagor/devlens/issues"
   },
   "packageManager": "pnpm@10.0.0",
   "scripts": {

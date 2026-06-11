@@ -2,7 +2,7 @@
 
 Thank you for your interest in contributing to DevLens.
 
-DevLens is an open-source debugging and performance inspection toolkit for React and Next.js applications, created and maintained by **Noore Rabbi Shagor** under **CodeNRS**.
+DevLens is an open-source debugging and performance inspection toolkit for React and Next.js applications, created and maintained by **Noore Rabbi Shagor** .
 
 The goal of this project is to provide a lightweight, developer-friendly debugging experience without unnecessary runtime overhead.
 
@@ -32,7 +32,7 @@ Please:
 Clone the repository:
 
 ```bash
-git clone https://github.com/codenrs/devlens.git
+git clone https://github.com/nrshagor/devlens.git
 ```
 
 Install dependencies:
@@ -138,4 +138,3 @@ Please report security-related concerns privately.
 Created and maintained by:
 
 **Noore Rabbi Shagor**
-CodeNRS
