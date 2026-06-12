@@ -13,6 +13,15 @@ export interface LongTaskRecord {
   timestamp: number;
 }
 
+export interface MemorySnapshot {
+  usedJSHeapSize: number;
+  totalJSHeapSize: number;
+  jsHeapSizeLimit: number;
+  usagePercent: number;
+  supported: boolean;
+  timestamp: number;
+}
+
 export interface PerformanceSnapshot {
   fps: number;
   averageFps: number;
@@ -21,5 +30,6 @@ export interface PerformanceSnapshot {
   status: PerformanceStatus;
   samples: FpsSample[];
   longTasks: LongTaskRecord[];
+  memory?: MemorySnapshot;
   lastUpdatedAt: number;
 }

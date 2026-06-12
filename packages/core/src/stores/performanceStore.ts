@@ -1,6 +1,7 @@
 import type {
   FpsSample,
   LongTaskRecord,
+  MemorySnapshot,
   PerformanceSnapshot,
   PerformanceStatus,
 } from '../performance/types';
@@ -44,9 +45,9 @@ function createSnapshot(): PerformanceSnapshot {
     ...snapshot,
     samples: [...snapshot.samples],
     longTasks: [...snapshot.longTasks],
+    memory: snapshot.memory ? { ...snapshot.memory } : undefined,
   };
 }
-
 function notify() {
   const currentSnapshot = createSnapshot();
 
@@ -103,6 +104,13 @@ export const performanceStore = {
     notify();
   },
 
+  setMemory(memory: MemorySnapshot) {
+    snapshot.memory = memory;
+    snapshot.lastUpdatedAt = memory.timestamp;
+
+    notify();
+  },
+
   clearLongTasks() {
     snapshot.longTasks = [];
     snapshot.lastUpdatedAt = Date.now();
@@ -119,7 +127,7 @@ export const performanceStore = {
     snapshot.samples = [];
     snapshot.longTasks = [];
     snapshot.lastUpdatedAt = Date.now();
-
+    snapshot.memory = undefined;
     notify();
   },
 };

@@ -15,7 +15,8 @@ export function PerformancePanel({
 }) {
   const samples = performanceSnapshot.samples.slice(-24);
   const latestLongTask = performanceSnapshot.longTasks[0];
-
+  const memory = performanceSnapshot.memory;
+  const memoryUsedMb = memory ? Math.round(memory.usedJSHeapSize / 1024 / 1024) : undefined;
   return (
     <div className="devlens-performance">
       <div className="devlens-overview-grid">
@@ -36,6 +37,12 @@ export function PerformancePanel({
           label="Long Tasks"
           value={performanceSnapshot.longTasks.length}
           hint="Main thread blocking"
+        />
+
+        <OverviewMetricCard
+          label="Memory"
+          value={memory ? `${memoryUsedMb} MB` : '--'}
+          hint={memory ? `${memory.usagePercent}% JS heap used` : 'Not available in this browser'}
         />
 
         <OverviewMetricCard
