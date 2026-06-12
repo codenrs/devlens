@@ -1,7 +1,7 @@
 {
   "name": "devlens",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A modern Laravel Debugbar-inspired debugging and performance inspection toolkit for React and Next.js.",
   "author": "Noore Rabbi Shagor",
   "license": "AGPL-3.0-only",
