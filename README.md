@@ -260,6 +260,14 @@ export function App() {
 
 ---
 
+## Keyboard Shortcut
+
+```txt
+Ctrl + Shift + D
+```
+
+---
+
 # Philosophy
 
 DevLens should be:

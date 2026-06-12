@@ -1,19 +1,21 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import type {
   ConsoleRecord,
   NetworkRequestRecord,
   PerformanceSnapshot,
+  RenderSnapshot,
+  RouteSnapshot,
 } from '@nrshagor/devlens-core';
 import type { DevLensTab, DevLensTabId, DevLensTheme } from '../types';
 import { getNextTheme } from '../utils/format';
 import { ConsolePanel } from './console/ConsolePanel';
+import { ErrorPanel } from './errors/ErrorPanel';
 import { NetworkPanel } from './network/NetworkPanel';
 import { OverviewPanel } from './overview/OverviewPanel';
 import { PerformancePanel } from './performance/PerformancePanel';
-import { SettingsPanel } from './settings/SettingsPanel';
-import { RoutesPanel } from './routes/RoutesPanel';
 import { RenderPanel } from './render/RenderPanel';
-import { ErrorPanel } from './errors/ErrorPanel';
+import { RoutesPanel } from './routes/RoutesPanel';
+import { SettingsPanel } from './settings/SettingsPanel';
 
 function DevLensTabContent({
   activeTab,
@@ -48,17 +50,11 @@ function DevLensTabContent({
     return <PerformancePanel performanceSnapshot={performanceSnapshot} />;
   }
 
-  if (activeTab === 'routes') {
-    return <RoutesPanel />;
-  }
+  if (activeTab === 'routes') return <RoutesPanel />;
 
-  if (activeTab === 'render') {
-    return <RenderPanel />;
-  }
+  if (activeTab === 'render') return <RenderPanel />;
 
-  if (activeTab === 'errors') {
-    return <ErrorPanel />;
-  }
+  if (activeTab === 'errors') return <ErrorPanel />;
 
   return <SettingsPanel theme={theme} onThemeChange={onThemeChange} />;
 }
@@ -68,6 +64,8 @@ export function DevLensDrawer({
   requests,
   consoleRecords,
   performanceSnapshot,
+  renderSnapshot,
+  routeSnapshot,
   runtimeErrorCount,
   theme,
   activeTab,
@@ -79,6 +77,8 @@ export function DevLensDrawer({
   requests: NetworkRequestRecord[];
   consoleRecords: ConsoleRecord[];
   performanceSnapshot: PerformanceSnapshot;
+  renderSnapshot: RenderSnapshot;
+  routeSnapshot: RouteSnapshot;
   runtimeErrorCount: number;
   theme: DevLensTheme;
   activeTab: DevLensTabId;
@@ -86,18 +86,22 @@ export function DevLensDrawer({
   onThemeChange: (theme: DevLensTheme) => void;
   onClose: () => void;
 }) {
-  if (!open) return null;
-
   const consoleErrorCount = consoleRecords.filter((record) => record.level === 'error').length;
-  // const apiErrorCount = requests.filter((request) => request.status === 'error').length;
+
+  const totalRenderCount = useMemo(
+    () => renderSnapshot.records.reduce((sum, record) => sum + record.renderCount, 0),
+    [renderSnapshot.records],
+  );
+
+  if (!open) return null;
 
   const tabs: DevLensTab[] = [
     { id: 'overview', label: 'Overview' },
     { id: 'network', label: 'Network', badge: requests.length },
     { id: 'console', label: 'Console', badge: consoleErrorCount || consoleRecords.length },
-    { id: 'performance', label: 'Performance' },
-    { id: 'routes', label: 'Routes' },
-    { id: 'render', label: 'Render' },
+    { id: 'performance', label: 'Performance', badge: performanceSnapshot.longTasks.length },
+    { id: 'routes', label: 'Routes', badge: routeSnapshot.history.length },
+    { id: 'render', label: 'Render', badge: totalRenderCount || renderSnapshot.records.length },
     { id: 'errors', label: 'Runtime Errors', badge: runtimeErrorCount },
     { id: 'settings', label: 'Settings' },
   ];

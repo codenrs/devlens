@@ -41,6 +41,7 @@ export function OverviewPanel({
   const completedRequests = requests.filter((request) => request.status !== 'pending');
   const errorCount = requests.filter((request) => request.status === 'error').length;
   const slowCount = requests.filter((request) => request.isSlow).length;
+  const duplicateCount = requests.filter((request) => request.isDuplicate).length;
   const consoleErrorCount = consoleRecords.filter((record) => record.level === 'error').length;
   const consoleWarnCount = consoleRecords.filter((record) => record.level === 'warn').length;
 
@@ -70,7 +71,7 @@ export function OverviewPanel({
         />
 
         <OverviewMetricCard label="Slow Requests" value={slowCount} hint="Successful slow APIs" />
-
+        <OverviewMetricCard label="Duplicates" value={duplicateCount} hint="Repeated API calls" />
         <OverviewMetricCard label="API Errors" value={errorCount} hint="Failed API responses" />
 
         <OverviewMetricCard

@@ -89,6 +89,8 @@ export function NetworkDetailsPanel({
         <DetailItem label="Status Code" value={request.statusCode ?? '--'} />
         <DetailItem label="Duration" value={formatDuration(request.duration)} />
         <DetailItem label="Slow" value={request.isSlow ? 'Yes' : 'No'} />
+        <DetailItem label="Duplicate" value={request.isDuplicate ? 'Yes' : 'No'} />
+        <DetailItem label="Duplicate Count" value={request.duplicateCount ?? '--'} />
         <DetailItem label="Started" value={formatTimestamp(request.startTime)} />
         <DetailItem label="Ended" value={formatTimestamp(request.endTime)} />
       </div>

@@ -50,6 +50,19 @@ export function SettingsPanel({
       </div>
 
       <div className="devlens-overview-section">
+        <div className="devlens-overview-section-title">Keyboard Shortcut</div>
+        <div className="devlens-settings-shortcut">
+          <kbd>Ctrl</kbd>
+          <span>+</span>
+          <kbd>Shift</kbd>
+          <span>+</span>
+          <kbd>D</kbd>
+
+          <span className="devlens-settings-shortcut-text">Toggle DevLens drawer</span>
+        </div>
+      </div>
+
+      <div className="devlens-overview-section">
         <div className="devlens-overview-section-title">Developer UX</div>
         <p className="devlens-settings-text">
           More preferences like slow request threshold, default tab, and panel size will be added in

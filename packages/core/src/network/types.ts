@@ -10,5 +10,7 @@ export interface NetworkRequestRecord {
   endTime?: number;
   duration?: number;
   isSlow?: boolean;
+  isDuplicate?: boolean;
+  duplicateCount?: number;
   errorMessage?: string;
 }
