@@ -43,6 +43,7 @@ Created by **Noore Rabbi Shagor**.
 - Floating developer debugbar
 - Expandable inspector drawer
 - Network request monitoring
+- Fetch and Axios request monitoring
 - Console log/warn/error tracking
 - Runtime error monitoring
 - FPS and long task monitoring
@@ -203,6 +204,46 @@ function ProductCard() {
 
 ---
 
+# Axios Monitoring
+
+DevLens supports optional Axios monitoring without adding Axios as a dependency.
+
+You provide your own Axios instance manually.
+
+````tsx
+import { useEffect } from 'react';
+import axios from 'axios';
+import {
+  DevLens,
+  installAxiosInterceptor,
+  uninstallAxiosInterceptor,
+} from '@nrshagor/devlens-react';
+import '@nrshagor/devlens-react/styles.css';
+
+const axiosClient = axios.create({
+  baseURL: 'https://api.example.com',
+});
+
+export function App() {
+  useEffect(() => {
+    installAxiosInterceptor(axiosClient);
+
+    return () => {
+      uninstallAxiosInterceptor(axiosClient);
+    };
+  }, []);
+
+  return (
+    <>
+      <YourApp />
+      <DevLens />
+    </>
+  );
+}
+```
+---
+
+
 # Error Boundary Tracking
 
 ```tsx
@@ -215,7 +256,7 @@ export function App() {
     </DevLensErrorBoundary>
   );
 }
-```
+````
 
 ---
 
