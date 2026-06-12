@@ -2,19 +2,39 @@
 
 DevLens is designed to provide a modern lightweight debugging experience for React and Next.js applications.
 
-## Floating Debugbar
+The goal is to help developers inspect runtime behavior directly inside the browser without introducing heavy development tooling overhead.
+
+---
+
+# Floating Debugbar
 
 DevLens includes a compact floating debugbar that stays visible during development.
 
-The debugbar displays quick runtime information such as:
+The debugbar displays real-time runtime information such as:
 
 - API request count
 - slow requests
-- errors
-- FPS
+- runtime errors
 - render activity
+- FPS metrics
 
-## Expandable Inspector Drawer
+The bar can be expanded into the full DevLens inspector drawer.
+
+---
+
+# Keyboard Shortcut
+
+DevLens can be toggled from anywhere during development.
+
+```txt id="6wq2ne"
+Ctrl + Shift + D
+```
+
+This allows developers to quickly open or hide the inspector without refreshing the page.
+
+---
+
+# Expandable Inspector Drawer
 
 The main DevLens interface opens through an expandable drawer UI.
 
@@ -26,60 +46,175 @@ Current panels include:
 - Performance
 - Routes
 - Render
-- Errors
+- Runtime Errors
 - Settings
 
-## Network Monitoring
+The drawer is designed to remain lightweight while still exposing useful runtime information.
 
-DevLens automatically captures fetch requests.
+---
 
-Tracked information includes:
+# Overview Dashboard
+
+The Overview panel provides a high-level snapshot of application activity.
+
+Current metrics include:
+
+- API requests
+- slow requests
+- API errors
+- console activity
+- FPS
+- route activity
+- render activity
+- runtime errors
+
+It also displays:
+
+- latest network request
+- latest console entry
+
+---
+
+# Network Monitoring
+
+DevLens automatically captures network activity.
+
+Supported monitoring includes:
+
+- Fetch API monitoring
+- Optional Axios monitoring
+- Duplicate API request detection
+
+Tracked request information includes:
 
 - request method
 - request URL
-- request duration
 - response status
+- request duration
 - failed requests
 - slow requests
+- duplicate requests
 
-## Console Monitoring
+Network features include:
+
+- request details view
+- request search
+- request filtering
+- copy URL support
+
+---
+
+# Duplicate Request Detection
+
+DevLens can automatically detect repeated API requests.
+
+Duplicate requests are highlighted using badges such as:
+
+```txt id="8cn4vm"
+Duplicate x2
+```
+
+This helps identify:
+
+- accidental repeated requests
+- unnecessary rerenders
+- duplicated data fetching
+- inefficient query behavior
+
+Duplicate detection is intentionally lightweight and optimized for development usage.
+
+---
+
+# Console Monitoring
 
 DevLens captures browser console activity.
 
 Supported console methods:
 
-- console.log
-- console.info
-- console.warn
-- console.error
-- console.debug
+- `console.log`
+- `console.info`
+- `console.warn`
+- `console.error`
+- `console.debug`
 
-## Performance Monitoring
+Captured information includes:
 
-The Performance panel includes:
+- console level
+- message content
+- timestamps
 
-- FPS tracking
-- average FPS
-- minimum FPS
-- maximum FPS
-- long task detection
+---
 
-Performance status is automatically categorized:
+# Runtime Error Monitoring
 
-- good
-- warning
-- poor
+DevLens captures runtime errors and unhandled promise rejections.
 
-## Route Tracking
+Tracked information includes:
+
+- error message
+- stack trace
+- timestamps
+
+Runtime errors appear inside the Runtime Errors panel.
+
+API failures are intentionally separated from runtime exceptions to reduce debugging confusion.
+
+---
+
+# React Error Boundary Tracking
+
+DevLens includes lightweight React error boundary support.
+
+Captured React errors include:
+
+- error name
+- error message
+- component stack
+- timestamps
+
+Example:
+
+```tsx id="3ne9vk"
+import { DevLensErrorBoundary } from '@nrshagor/devlens-react';
+```
+
+---
+
+# Render Tracking
+
+Render tracking is intentionally opt-in to keep DevLens lightweight.
+
+Example:
+
+```tsx id="0wr6lf"
+useDevLensRender('ProductCard');
+```
+
+Tracked render information includes:
+
+- component name
+- render count
+- latest render duration
+- render timestamps
+
+Render metrics appear inside:
+
+- Render panel
+- Overview dashboard
+- Floating debugbar
+
+---
+
+# Route Tracking
 
 DevLens tracks browser route navigation activity.
 
 Supported navigation events:
 
-- pushState
-- replaceState
-- popstate
-- hashchange
+- `pushState`
+- `replaceState`
+- `popstate`
+- `hashchange`
 
 The Routes panel displays:
 
@@ -88,40 +223,72 @@ The Routes panel displays:
 - route history
 - navigation timing
 
-## Render Tracking
+Supports both React and Next.js applications.
 
-Render tracking is intentionally opt-in.
+---
 
-Example:
+# Performance Monitoring
 
-```tsx id="zpw8ok"
-useDevLensRender('ProductCard');
-```
+The Performance panel includes:
 
-Tracked render information:
+- FPS tracking
+- average FPS
+- minimum FPS
+- maximum FPS
+- long task detection
+- memory usage monitoring
 
-- component name
-- render count
-- latest render duration
-- render timestamps
+Performance status is automatically categorized as:
 
-This approach helps keep DevLens lightweight for large applications.
+- good
+- warning
+- poor
 
-## Error Tracking
+---
 
-DevLens includes React error boundary tracking.
+# FPS Timeline
 
-Captured information includes:
+DevLens visualizes FPS activity using a lightweight timeline graph.
 
-- error name
-- error message
-- stack trace
-- component stack
-- timestamp
+The graph helps identify:
 
-Errors are displayed inside the Errors panel.
+- frame drops
+- rendering instability
+- UI performance spikes
 
-## Theme System
+without introducing expensive charting systems.
+
+---
+
+# Long Task Detection
+
+DevLens monitors browser long tasks using the Performance Observer API.
+
+Long tasks help identify:
+
+- blocked main thread activity
+- heavy rendering work
+- expensive synchronous operations
+
+Long tasks are displayed with timing information and duration badges.
+
+---
+
+# Memory Usage Monitoring
+
+DevLens includes lightweight browser memory usage tracking when supported.
+
+Displayed metrics may include:
+
+- used JS heap size
+- total JS heap size
+- heap usage percentage
+
+Memory monitoring remains browser-dependent and gracefully degrades when unsupported.
+
+---
+
+# Theme System
 
 Supported themes:
 
@@ -131,15 +298,19 @@ Supported themes:
 
 Theme preferences are persisted locally.
 
-## React Support
+---
+
+# React Support
 
 DevLens supports modern React applications through:
 
-```tsx id="ftq0rf"
+```tsx id="4uz2rk"
 @nrshagor/devlens-react
 ```
 
-## Next.js Support
+---
+
+# Next.js Support
 
 DevLens supports:
 
@@ -148,7 +319,9 @@ DevLens supports:
 
 Hydration-safe rendering guards are included by default.
 
-## Lightweight Runtime Philosophy
+---
+
+# Lightweight Runtime Philosophy
 
 DevLens is intentionally designed to avoid:
 
@@ -158,29 +331,37 @@ DevLens is intentionally designed to avoid:
 - excessive serialization
 - large retained snapshots
 - heavy observers
+- production-heavy instrumentation
 
-The goal is to remain lightweight and developer-friendly even in large projects.
+The goal is to remain lightweight and developer-friendly even in large applications.
 
-## Current Project Status
+Most advanced monitoring systems remain optimized or opt-in.
+
+---
+
+# Current Project Status
 
 Current status:
 
-- Internal Alpha Ready
-- React support stable
-- Next.js support stable
-- Runtime architecture stable
-- Lightweight UI system operational
+- Stable React support
+- Stable Next.js support
+- Runtime architecture operational
+- Lightweight monitoring system operational
+- npm packages published
 
-## Future Expansion
+---
+
+# Future Expansion
 
 Possible future features may include:
 
-- Axios monitoring
 - XMLHttpRequest monitoring
 - storage inspection
 - exportable debug snapshots
 - WebSocket monitoring
 - ecosystem integrations
+- plugin APIs
+- custom monitoring hooks
 
 The current priority remains:
 
@@ -188,3 +369,9 @@ The current priority remains:
 - stability
 - developer experience
 - React and Next.js support
+
+---
+
+# Created By
+
+Created by **Noore Rabbi Shagor**.

@@ -14,6 +14,8 @@ import {
   uninstallRuntimeErrorMonitor,
   installMemoryMonitor,
   uninstallMemoryMonitor,
+  installXhrInterceptor,
+  uninstallXhrInterceptor,
 } from '@nrshagor/devlens-core';
 import { DevLensBar, type DevLensBarProps } from '@nrshagor/devlens-ui';
 
@@ -51,6 +53,7 @@ export function DevLens({ enabled, ...props }: DevLensProps) {
     installRouteMonitor();
     installRuntimeErrorMonitor();
     installMemoryMonitor();
+    installXhrInterceptor();
 
     return () => {
       uninstallFetchInterceptor();
@@ -60,6 +63,7 @@ export function DevLens({ enabled, ...props }: DevLensProps) {
       uninstallRouteMonitor();
       uninstallRuntimeErrorMonitor();
       uninstallMemoryMonitor();
+      uninstallXhrInterceptor();
     };
   }, [shouldRender, mounted]);
 

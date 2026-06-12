@@ -7,42 +7,52 @@ DevLens provides a lightweight in-app developer inspector inspired by Laravel De
 Monitor:
 
 - API requests
+- Fetch and Axios traffic
 - console logs
 - runtime errors
 - component renders
-- route changes
+- route navigation
 - FPS and long tasks
+- memory usage
 - application performance
+
+Built for modern React development workflows.
+
+---
+
+# Related Packages
+
+- Next.js package: `@nrshagor/devlens-next`
 
 ---
 
 # Installation
 
-Using npm:
+## npm
 
-```bash id="v3c8mx"
+```bash
 npm install @nrshagor/devlens-react
 ```
 
-Using pnpm:
+## pnpm
 
-```bash id="p4t7qa"
+```bash
 pnpm add @nrshagor/devlens-react
 ```
 
-Using yarn:
+## yarn
 
-```bash id="y8m1rq"
+```bash
 yarn add @nrshagor/devlens-react
 ```
 
 ---
 
-# Setup
+# Basic Setup
 
 Add DevLens inside your main application component.
 
-```tsx id="d6k2ns"
+```tsx
 import { DevLens } from '@nrshagor/devlens-react';
 import '@nrshagor/devlens-react/styles.css';
 
@@ -58,11 +68,51 @@ export function App() {
 
 ---
 
+# Features
+
+## Monitoring
+
+- Fetch API request monitoring
+- Optional Axios request monitoring
+- Console log/warn/error/info/debug capture
+- Runtime error monitoring
+- Unhandled promise rejection tracking
+- FPS monitoring
+- Long task monitoring
+- Memory usage monitoring
+- Route navigation tracking
+- Duplicate API request detection
+
+---
+
+## React Developer Tools
+
+- Component render tracking
+- Render metrics
+- Render history panel
+- React error boundary tracking
+
+---
+
+## Developer Experience
+
+- Floating developer debugbar
+- Expandable inspector drawer
+- Keyboard shortcut toggle (`Ctrl + Shift + D`)
+- Network request filtering
+- Searchable network panel
+- Dark, light, and system themes
+- Zero configuration setup
+- Lightweight development-first runtime design
+- HMR-safe lifecycle handling
+
+---
+
 # Render Tracking
 
 Render tracking is opt-in to keep DevLens lightweight.
 
-```tsx id="z9f4pm"
+```tsx
 import { useDevLensRender } from '@nrshagor/devlens-react';
 
 function ProductCard() {
@@ -74,9 +124,51 @@ function ProductCard() {
 
 ---
 
+# Axios Monitoring
+
+DevLens supports optional Axios monitoring without bundling Axios itself.
+
+You manually provide your Axios instance.
+
+```tsx
+import { useEffect } from 'react';
+import axios from 'axios';
+
+import {
+  DevLens,
+  installAxiosInterceptor,
+  uninstallAxiosInterceptor,
+} from '@nrshagor/devlens-react';
+
+import '@nrshagor/devlens-react/styles.css';
+
+const axiosClient = axios.create({
+  baseURL: 'https://api.example.com',
+});
+
+export function App() {
+  useEffect(() => {
+    installAxiosInterceptor(axiosClient);
+
+    return () => {
+      uninstallAxiosInterceptor(axiosClient);
+    };
+  }, []);
+
+  return (
+    <>
+      <YourApp />
+      <DevLens />
+    </>
+  );
+}
+```
+
+---
+
 # Error Boundary Tracking
 
-```tsx id="q7w1vt"
+```tsx
 import { DevLensErrorBoundary } from '@nrshagor/devlens-react';
 
 export function App() {
@@ -90,18 +182,20 @@ export function App() {
 
 ---
 
-# Features
+# Keyboard Shortcut
 
-- Network request monitoring
-- Console log tracking
-- Runtime error monitoring
-- FPS monitoring
-- Long task monitoring
-- Route navigation tracking
-- Component render tracking
-- Expandable debug drawer
-- Dark, light, and system themes
-- Development-only runtime safety
+Toggle DevLens anywhere during development:
+
+```txt
+Ctrl + Shift + D
+```
+
+---
+
+# Requirements
+
+- React 18+
+- Client-side React application
 
 ---
 

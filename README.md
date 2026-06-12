@@ -2,17 +2,20 @@
 
 **See what your app is really doing.**
 
-DevLens is a modern Laravel Debugbar-inspired debugging and performance inspection toolkit for React and Next.js applications.
+DevLens is a modern Laravel Debugbar-inspired developer toolkit for React and Next.js applications.
 
-It provides a lightweight in-app developer inspector for monitoring:
+It provides a lightweight in-app inspector for monitoring:
 
 - API requests
+- Axios and Fetch traffic
 - console logs
 - runtime errors
 - component renders
-- route changes
+- route navigation
 - FPS and long tasks
 - application performance
+
+Built for developers who want real-time frontend debugging without opening multiple browser tools.
 
 Created by **Noore Rabbi Shagor**.
 
@@ -40,23 +43,53 @@ Created by **Noore Rabbi Shagor**.
 
 # Features
 
+## Core Monitoring
+
 - Floating developer debugbar
 - Expandable inspector drawer
-- Network request monitoring
-- Fetch and Axios request monitoring
-- Console log/warn/error tracking
+- Fetch API request monitoring
+- Optional Axios request monitoring
+- Console log/warn/error/info/debug capture
 - Runtime error monitoring
-- FPS and long task monitoring
+- Unhandled promise rejection tracking
 - Route navigation tracking
+- FPS monitoring
+- Long task monitoring
+- Memory usage monitoring
+- Duplicate API request detection
+
+---
+
+## React Developer Tools
+
 - Component render tracking
 - React error boundary tracking
-- React support
-- Next.js App Router support
-- Next.js Pages Router support
+- Render metrics
+- Render history panel
+
+---
+
+## Developer Experience
+
+- Keyboard shortcut toggle (`Ctrl + Shift + D`)
+- Network request search and filtering
 - Dark, light, and system themes
+- Responsive drawer UI
 - Development-first lightweight runtime design
 - Zero configuration setup
 - Safe development-only runtime behavior
+- HMR-safe monitor lifecycle
+
+---
+
+## Framework Support
+
+- React
+- Next.js App Router
+- Next.js Pages Router
+- Vite
+- CRA
+- Client-side React applications
 
 ---
 
@@ -64,19 +97,19 @@ Created by **Noore Rabbi Shagor**.
 
 ## React
 
-Using pnpm:
+### pnpm
 
 ```bash
 pnpm add @nrshagor/devlens-react
 ```
 
-Using npm:
+### npm
 
 ```bash
 npm install @nrshagor/devlens-react
 ```
 
-Using yarn:
+### yarn
 
 ```bash
 yarn add @nrshagor/devlens-react
@@ -86,19 +119,19 @@ yarn add @nrshagor/devlens-react
 
 ## Next.js
 
-Using pnpm:
+### pnpm
 
 ```bash
 pnpm add @nrshagor/devlens-next
 ```
 
-Using npm:
+### npm
 
 ```bash
 npm install @nrshagor/devlens-next
 ```
 
-Using yarn:
+### yarn
 
 ```bash
 yarn add @nrshagor/devlens-next
@@ -128,7 +161,7 @@ export function App() {
 
 # Next.js Setup
 
-## 1. Create a client component
+## Step 1 — Create a client component
 
 Create:
 
@@ -149,7 +182,7 @@ export function DevLensClient() {
 
 ---
 
-## 2. Add DevLens to your application
+## Step 2 — Add DevLens to your app
 
 ### App Router (`app/layout.tsx`)
 
@@ -206,18 +239,20 @@ function ProductCard() {
 
 # Axios Monitoring
 
-DevLens supports optional Axios monitoring without adding Axios as a dependency.
+DevLens supports optional Axios monitoring without bundling Axios itself.
 
 You provide your own Axios instance manually.
 
-````tsx
+```tsx
 import { useEffect } from 'react';
 import axios from 'axios';
+
 import {
   DevLens,
   installAxiosInterceptor,
   uninstallAxiosInterceptor,
 } from '@nrshagor/devlens-react';
+
 import '@nrshagor/devlens-react/styles.css';
 
 const axiosClient = axios.create({
@@ -241,8 +276,8 @@ export function App() {
   );
 }
 ```
----
 
+---
 
 # Error Boundary Tracking
 
@@ -256,11 +291,13 @@ export function App() {
     </DevLensErrorBoundary>
   );
 }
-````
+```
 
 ---
 
-## Keyboard Shortcut
+# Keyboard Shortcut
+
+Toggle DevLens anywhere in development mode:
 
 ```txt
 Ctrl + Shift + D
@@ -282,7 +319,7 @@ DevLens should never feel bloated, intrusive, or difficult to set up.
 
 ---
 
-# NPM Packages
+# Packages
 
 - `@nrshagor/devlens-react`
 - `@nrshagor/devlens-next`
