@@ -1,46 +1,42 @@
-# .github/ISSUE_TEMPLATE/bug_report.md
-
+```md
 ---
-
 name: Bug report
 about: Create a report to help improve DevLens
 title: '[Bug]: '
 labels: bug
 assignees: ''
-
 ---
-
-## Description
-
-A clear and concise description of the bug.
-
-## Reproduction
-
-Steps to reproduce the behavior:
-
-1.
-2.
-3.
-
-## Expected Behavior
-
-What you expected to happen.
-
-## Actual Behavior
-
-What actually happened.
 
 ## Environment
 
 - DevLens version:
 - React / Next.js version:
 - Browser:
-- OS:
+- Package manager:
+
+## Describe the bug
+
+A clear and concise description of the issue.
+
+## Steps to reproduce
+
+1.
+2.
+3.
+
+## Expected behavior
+
+Describe what you expected to happen.
+
+## Actual behavior
+
+Describe what actually happened.
 
 ## Screenshots
 
-If applicable, add screenshots or recordings.
+If applicable, add screenshots.
 
-## Additional Context
+## Additional context
 
 Add any other context about the problem here.
+```

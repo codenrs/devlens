@@ -1,32 +1,21 @@
-# .github/ISSUE_TEMPLATE/documentation.md
-
+```md
 ---
-
 name: Documentation issue
-about: Report missing, unclear, or incorrect documentation
+about: Report documentation improvements or missing docs
 title: '[Docs]: '
 labels: documentation
 assignees: ''
-
 ---
 
-## Documentation Problem
+## Documentation issue
 
-Describe the issue with the documentation.
+Describe the issue with the current documentation.
 
-## Affected Page or Section
+## Suggested improvement
 
-Example:
+Describe what should be improved or added.
 
-- README
-- React docs
-- Next.js docs
-- Features docs
+## Additional context
 
-## Suggested Improvement
-
-Describe what should be improved or clarified.
-
-## Additional Context
-
-Add screenshots or examples if relevant.
+Add screenshots or references if needed.
+```

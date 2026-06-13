@@ -1,36 +1,25 @@
-# .github/ISSUE_TEMPLATE/feature_request.md
-
+```md
 ---
-
 name: Feature request
-about: Suggest an idea or improvement for DevLens
+about: Suggest an idea for DevLens
 title: '[Feature]: '
 labels: enhancement
 assignees: ''
-
 ---
 
-## Feature Description
+## Problem
 
-Describe the feature clearly.
+Describe the problem your feature request solves.
 
-## Problem It Solves
+## Proposed solution
 
-What problem would this feature solve?
+Describe the solution you would like.
 
-## Proposed Solution
+## Alternatives considered
 
-Describe your preferred solution or implementation idea.
+Describe alternatives you have considered.
 
-## Additional Context
+## Additional context
 
-Add screenshots, examples, or references if relevant.
-
-## DevLens Philosophy Check
-
-Please confirm this feature aligns with DevLens goals:
-
-- [ ] Lightweight runtime impact
-- [ ] Strong developer experience
-- [ ] React / Next.js focused
-- [ ] Minimal setup complexity
+Add any other context or screenshots here.
+```
