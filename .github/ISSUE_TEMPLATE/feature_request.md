@@ -1,25 +1,20 @@
-```md
 ---
 name: Feature request
-about: Suggest an idea for DevLens
-title: '[Feature]: '
-labels: enhancement
+about: Suggest an idea for this project
+title: ''
+labels: ''
 assignees: ''
+
 ---
 
-## Problem
+**Is your feature request related to a problem? Please describe.**
+A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
 
-Describe the problem your feature request solves.
+**Describe the solution you'd like**
+A clear and concise description of what you want to happen.
 
-## Proposed solution
+**Describe alternatives you've considered**
+A clear and concise description of any alternative solutions or features you've considered.
 
-Describe the solution you would like.
-
-## Alternatives considered
-
-Describe alternatives you have considered.
-
-## Additional context
-
-Add any other context or screenshots here.
-```
+**Additional context**
+Add any other context or screenshots about the feature request here.

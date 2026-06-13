@@ -1,42 +1,38 @@
-```md
 ---
 name: Bug report
-about: Create a report to help improve DevLens
-title: '[Bug]: '
-labels: bug
+about: Create a report to help us improve
+title: ''
+labels: ''
 assignees: ''
+
 ---
 
-## Environment
+**Describe the bug**
+A clear and concise description of what the bug is.
 
-- DevLens version:
-- React / Next.js version:
-- Browser:
-- Package manager:
+**To Reproduce**
+Steps to reproduce the behavior:
+1. Go to '...'
+2. Click on '....'
+3. Scroll down to '....'
+4. See error
 
-## Describe the bug
+**Expected behavior**
+A clear and concise description of what you expected to happen.
 
-A clear and concise description of the issue.
+**Screenshots**
+If applicable, add screenshots to help explain your problem.
 
-## Steps to reproduce
+**Desktop (please complete the following information):**
+ - OS: [e.g. iOS]
+ - Browser [e.g. chrome, safari]
+ - Version [e.g. 22]
 
-1.
-2.
-3.
+**Smartphone (please complete the following information):**
+ - Device: [e.g. iPhone6]
+ - OS: [e.g. iOS8.1]
+ - Browser [e.g. stock browser, safari]
+ - Version [e.g. 22]
 
-## Expected behavior
-
-Describe what you expected to happen.
-
-## Actual behavior
-
-Describe what actually happened.
-
-## Screenshots
-
-If applicable, add screenshots.
-
-## Additional context
-
+**Additional context**
 Add any other context about the problem here.
-```
