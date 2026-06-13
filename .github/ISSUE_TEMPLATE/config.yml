@@ -1,6 +1,10 @@
-blank_issues_enabled: false
+blank_issues_enabled: true
 
 contact_links:
   - name: DevLens Discussions
     url: https://github.com/nrshagor/devlens/discussions
     about: Ask questions, share ideas, and discuss DevLens here.
+
+  - name: Report a security vulnerability
+    url: mailto:opensource@nrshagor.com
+    about: Please review our security policy for more details.
